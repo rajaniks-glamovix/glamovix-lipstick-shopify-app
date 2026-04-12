@@ -1,0 +1,185 @@
+
+{{ 'app.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'app.js' | asset_url }}" defer></script>
+<script>
+  var productId = "{{ product.selected_or_first_available_variant.id }}";
+</script>
+
+<style>
+  #glamovix-lipstick {
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border:{{block.settings.border}}px solid {{block.settings.button_text_color}};
+    border-radius: {{ block.settings.border_radius }}px;
+    font-size: {{ block.settings.font_size }};
+    font-weight: {{ block.settings.font_weight }};
+    display: none;
+    gap:8px;
+    align-items:center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 1rem 0rem;
+     width: {{ block.settings.button_width }}%; /* ← added */
+  }
+</style>
+
+<div
+  id="glamovix-lipstick"
+  class="glamovix-lipstick-btn"
+  data-product-title="{{ product.title }}"
+  data-product-id="{{ product.selected_or_first_available_variant.id }}"
+  data-button-text="{{ block.settings.button_text }}"
+  data-button-icon="{{ block.settings.button_icon }}"
+  style="
+      color: {{ block.settings.button_text_color }};
+      background-color: {{ block.settings.button_color }};
+  "
+>
+ <div class="glamovix-icon"></div>  
+  <div class="glamovix-text">{{ block.settings.button_text }}</div>
+</div>
+
+<iframe
+  id="glamovix-lipstick-iframe"
+  class="glamovix-lipstick-iframe"
+  style="display: none;"
+  allow="camera *; web-share;"
+></iframe>
+
+{% schema %}
+{
+  "name": "Lipstick Tryon",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true },
+    {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Lipstick TryOn"
+      },
+      {
+        "type": "select",
+        "id": "button_icon",
+        "label": "Button Icon",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "magic",
+            "label": "AI Magic"
+          },
+          {
+            "value": "lipstick",
+            "label": "Lipstick"
+          },
+          {
+            "value": "tryon",
+            "label": "Try On"
+          }
+        ],
+        "default": "magic"
+
+      },
+     {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#ffffff"
+      },
+      {
+         "type": "range",
+         "id": "button_width",
+          "label": "Button Width",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 100
+      },
+      {
+        "type": "range",
+        "id": "border",
+        "label": "Border (px)",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 1
+      },
+    
+       {
+        "type": "range",
+        "id": "border_radius",
+        "label": "Border Radius (px)",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0
+      },
+       {
+  "type": "select",
+  "id": "font_size",
+  "label": "Font Size",
+  "default": "medium",
+  "options": [
+    {
+      "value": "x-small",
+      "label": "smaller"
+    },
+    {
+      "value": "small",
+      "label": "small"
+    },
+    {
+      "value": "medium",
+      "label": "medium"
+    },
+    {
+      "value": "large",
+      "label": "large"
+    },
+    {
+      "value": "larger",
+      "label": "larger"
+    },
+      ]
+      },
+
+      {
+  "type": "select",
+  "id": "font_weight",
+  "label": "Font Weight",
+  "default": "400",
+  "options": [
+    {
+      "value": "100",
+      "label": "Thin"
+    },
+   
+    {
+      "value": "400",
+      "label": "Normal"
+    },
+    
+    {
+      "value": "600",
+      "label": "Bold"
+    },
+    {
+      "value": "800",
+      "label": "Bolder"
+    },
+   
+  ]
+},
+  ]
+}
+{% endschema %}
+

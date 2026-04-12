@@ -1,0 +1,333 @@
+{
+  "products": [
+    {
+      "color": "#A2142F",
+      "description": "This is a gift card for the store",
+      "price": "100.00",
+      "intensity": "5",
+      "title": "Gift Card - $100",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/gift_card.png?v=1769423029",
+      "lipstick_type": "satin",
+      "product_id": "gid://shopify/ProductVariant/53064588132625",
+      "parent_product_id": "gid://shopify/Product/10780028797201"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "2629.95",
+      "intensity": "5",
+      "title": "The 3p Fulfilled Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_b9e0da7f-db89-4d41-83f0-7f417b02831d.jpg?v=1769423029",
+      "lipstick_type": "glossy",
+      "product_id": "gid://shopify/ProductVariant/53064588984593",
+      "parent_product_id": "gid://shopify/Product/10780029255953"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "629.95",
+      "intensity": "5",
+      "title": "The Archived Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_52f8e304-92d9-4a36-82af-50df8fe31c69.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588591377",
+      "parent_product_id": "gid://shopify/Product/10780029157649"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "600.00",
+      "intensity": "5",
+      "title": "The Collection Snowboard: Hydrogen",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_0a40b01b-5021-48c1-80d1-aa8ab4876d3d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588230929",
+      "parent_product_id": "gid://shopify/Product/10780029124881"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "749.95",
+      "intensity": "5",
+      "title": "The Collection Snowboard: Liquid",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_b13ad453-477c-4ed1-9b43-81f3345adfd6.jpg?v=1769423030",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064589115665",
+      "parent_product_id": "gid://shopify/Product/10780029321489"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "1025.00",
+      "intensity": "5",
+      "title": "The Collection Snowboard: Oxygen",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_d624f226-0a89-4fe1-b333-0d1548b43c06.jpg?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588919057",
+      "parent_product_id": "gid://shopify/Product/10780029223185"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "785.95",
+      "intensity": "5",
+      "title": "The Compare at Price Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/snowboard_sky.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588558609",
+      "parent_product_id": "gid://shopify/Product/10780028961041"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This PREMIUM snowboard is so SUPERDUPER awesome!",
+      "price": "699.95",
+      "intensity": "5",
+      "title": "The Complete Snowboard - Ice",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588394769",
+      "parent_product_id": "gid://shopify/Product/10780029026577"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "2455.95",
+      "intensity": "5",
+      "title": "The Draft Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_5127218a-8f6c-498f-b489-09242c0fab0a.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588198161",
+      "parent_product_id": "gid://shopify/Product/10780028993809"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "949.95",
+      "intensity": "5",
+      "title": "The Inventory Not Tracked Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/snowboard_purple_hydrogen.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588263697",
+      "parent_product_id": "gid://shopify/Product/10780028829969"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "885.95",
+      "intensity": "5",
+      "title": "The Minimal Snowboard",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588001553",
+      "parent_product_id": "gid://shopify/Product/10780028862737"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "729.95",
+      "intensity": "5",
+      "title": "The Multi-location Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_0a4e9096-021a-4c1e-8750-24b233166a12.jpg?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588853521",
+      "parent_product_id": "gid://shopify/Product/10780029190417"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "629.95",
+      "intensity": "5",
+      "title": "The Multi-managed Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_9129b69a-0c7b-4f66-b6cf-c4222f18028a.jpg?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588951825",
+      "parent_product_id": "gid://shopify/Product/10780029288721"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "885.95",
+      "intensity": "5",
+      "title": "The Out of Stock Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_f44a9605-cd62-464d-b095-d45cdaa0d0d7.jpg?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588656913",
+      "parent_product_id": "gid://shopify/Product/10780028895505"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "885.95",
+      "intensity": "5",
+      "title": "The Videographer Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588624145",
+      "parent_product_id": "gid://shopify/Product/10780029059345"
+    },
+    {
+      "color": "#b7010d",
+      "description": "",
+      "price": "0.00",
+      "intensity": "5",
+      "title": "orange",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Gemini_Generated_Image_eibyu4eibyu4eiby.jpg?v=1772346648",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53184972980497",
+      "parent_product_id": "gid://shopify/Product/10960079388945"
+    },
+    {
+      "color": "#be020d",
+      "description": "",
+      "price": "0.00",
+      "intensity": "5",
+      "title": "red black t shirt",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/whitelady2_1.png?v=1772346614",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53184966197521",
+      "parent_product_id": "gid://shopify/Product/10960072737041"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "0.00",
+      "intensity": "5",
+      "title": "silver shirt",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Gemini_Generated_Image_eibyu4eibyu4eiby.jpg?v=1772346648",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53184967442705",
+      "parent_product_id": "gid://shopify/Product/10960073883921"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "0.00",
+      "intensity": "5",
+      "title": "t shirt",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/result_inference_3.png?v=1772346585",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53184964854033",
+      "parent_product_id": "gid://shopify/Product/10960071393553"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "749.95",
+      "intensity": "5",
+      "title": "The Hidden Snowboard",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_c8ff0b5d-c712-429a-be00-b29bd55cbc9d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588722449",
+      "parent_product_id": "gid://shopify/Product/10780028928273"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "0.00",
+      "intensity": "5",
+      "title": "yeoolow black",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Gemini_Generated_Image_eibyu4eibyu4eiby.jpg?v=1772346648",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53184973701393",
+      "parent_product_id": "gid://shopify/Product/10960080142609"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This PREMIUM snowboard is so SUPERDUPER awesome!",
+      "price": "699.95",
+      "intensity": "5",
+      "title": "The Complete Snowboard - Dawn",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588427537",
+      "parent_product_id": "gid://shopify/Product/10780029026577"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This PREMIUM snowboard is so SUPERDUPER awesome!",
+      "price": "699.95",
+      "intensity": "5",
+      "title": "The Complete Snowboard - Powder",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588460305",
+      "parent_product_id": "gid://shopify/Product/10780029026577"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This PREMIUM snowboard is so SUPERDUPER awesome!",
+      "price": "699.95",
+      "intensity": "5",
+      "title": "The Complete Snowboard - Electric",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588493073",
+      "parent_product_id": "gid://shopify/Product/10780029026577"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This PREMIUM snowboard is so SUPERDUPER awesome!",
+      "price": "699.95",
+      "intensity": "5",
+      "title": "The Complete Snowboard - Sunset",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1769423028",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588525841",
+      "parent_product_id": "gid://shopify/Product/10780029026577"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This is a gift card for the store",
+      "price": "10.00",
+      "intensity": "5",
+      "title": "Gift Card - $10",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/gift_card.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588034321",
+      "parent_product_id": "gid://shopify/Product/10780028797201"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This is a gift card for the store",
+      "price": "25.00",
+      "intensity": "5",
+      "title": "Gift Card - $25",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/gift_card.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588067089",
+      "parent_product_id": "gid://shopify/Product/10780028797201"
+    },
+    {
+      "color": "#A2142F",
+      "description": "This is a gift card for the store",
+      "price": "50.00",
+      "intensity": "5",
+      "title": "Gift Card - $50",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/gift_card.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588099857",
+      "parent_product_id": "gid://shopify/Product/10780028797201"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "24.95",
+      "intensity": "5",
+      "title": "Selling Plans Ski Wax - Selling Plans Ski Wax",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/snowboard_wax.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588296465",
+      "parent_product_id": "gid://shopify/Product/10780029092113"
+    },
+    {
+      "color": "#A2142F",
+      "description": "",
+      "price": "49.95",
+      "intensity": "5",
+      "title": "Selling Plans Ski Wax - Special Selling Plans Ski Wax",
+      "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/snowboard_wax.png?v=1769423029",
+      "lipstick_type": "matte",
+      "product_id": "gid://shopify/ProductVariant/53064588329233",
+      "parent_product_id": "gid://shopify/Product/10780029092113"
+    }
+  ]
+}

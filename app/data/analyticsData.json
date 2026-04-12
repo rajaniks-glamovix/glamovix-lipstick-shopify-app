@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "lipstickTryons": 12450,
+    "addToCart": 850,
+    "totalUsers": 5200,
+    "photoMode": 3200,
+    "threeDView": 1800,
+    "purchases": 120
+  },
+  "trends": {
+    "last_week": [
+      { "name": "Mon", "tryons": 1200, "users": 400, "cart": 80 },
+      { "name": "Tue", "tryons": 1500, "users": 550, "cart": 95 },
+      { "name": "Wed", "tryons": 1300, "users": 480, "cart": 88 },
+      { "name": "Thu", "tryons": 1700, "users": 620, "cart": 110 },
+      { "name": "Fri", "tryons": 2100, "users": 750, "cart": 140 },
+      { "name": "Sat", "tryons": 2400, "users": 880, "cart": 165 },
+      { "name": "Sun", "tryons": 2250, "users": 820, "cart": 155 }
+    ],
+    "last_month": [
+      { "name": "Week 1", "tryons": 8500, "users": 3200, "cart": 600 },
+      { "name": "Week 2", "tryons": 9200, "users": 3500, "cart": 680 },
+      { "name": "Week 3", "tryons": 10500, "users": 4100, "cart": 750 },
+      { "name": "Week 4", "tryons": 12450, "users": 5200, "cart": 850 }
+    ],
+    "three_month": [
+      { "name": "Month 1", "tryons": 25000, "users": 10000, "cart": 1800 },
+      { "name": "Month 2", "tryons": 32000, "users": 12500, "cart": 2300 },
+      { "name": "Month 3", "tryons": 45000, "users": 18000, "cart": 3200 }
+    ],
+    "six_month": [
+      { "name": "Month 1", "tryons": 20000, "users": 8000, "cart": 1500 },
+      { "name": "Month 2", "tryons": 25000, "users": 10000, "cart": 1800 },
+      { "name": "Month 3", "tryons": 32000, "users": 12500, "cart": 2300 },
+      { "name": "Month 4", "tryons": 38000, "users": 15000, "cart": 2700 },
+      { "name": "Month 5", "tryons": 42000, "users": 17000, "cart": 3000 },
+      { "name": "Month 6", "tryons": 55000, "users": 22000, "cart": 4000 }
+    ],
+    "one_year": [
+      { "name": "Q1", "tryons": 80000, "users": 32000, "cart": 5500 },
+      { "name": "Q2", "tryons": 120000, "users": 48000, "cart": 8200 },
+      { "name": "Q3", "tryons": 150000, "users": 60000, "cart": 10500 },
+      { "name": "Q4", "tryons": 210000, "users": 85000, "cart": 14000 }
+    ]
+  },
+  "demographics": {
+    "countries": [
+      { "name": "United States", "value": 2100 },
+      { "name": "United Kingdom", "value": 850 },
+      { "name": "Canada", "value": 600 },
+      { "name": "India", "value": 450 },
+      { "name": "Australia", "value": 300 }
+    ],
+    "cities": [
+      { "name": "New York", "value": 520 },
+      { "name": "London", "value": 410 },
+      { "name": "Los Angeles", "value": 380 },
+      { "name": "Toronto", "value": 290 },
+      { "name": "Sydney", "value": 150 }
+    ]
+  },
+  "technology": {
+    "browsers": [
+      { "name": "Chrome", "value": 3200 },
+      { "name": "Safari", "value": 1200 },
+      { "name": "Firefox", "value": 450 },
+      { "name": "Edge", "value": 350 }
+    ],
+    "devices": [
+      { "name": "Mobile", "value": 3800 },
+      { "name": "Desktop", "value": 1200 },
+      { "name": "Tablet", "value": 200 }
+    ]
+  }
+}

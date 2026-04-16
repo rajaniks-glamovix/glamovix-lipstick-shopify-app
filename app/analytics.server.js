@@ -41,7 +41,6 @@ export async function getGTMRealtimeAnalytics(propertyId) {
         }
       });
     }
-    console.log("results:", results);
     return results;
   } catch (error) {
     console.error("Realtime Error:", error.message);
@@ -356,7 +355,6 @@ export async function getGTMUserDemographics(
       });
     }
 
-    console.log("GA4 demographics:", results);
     return results;
   } catch (error) {
     console.error("Error fetching GA4 demographics:", error.message);

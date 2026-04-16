@@ -23,6 +23,12 @@ export function getS3Key(companyName, type = "lipstick") {
   return `${type}/${sanitized}-${type}.json`;
 }
 
+const defaultSettings = {
+  threeDViewerEnabled: true,
+  uploadedModels: [],
+  active: "/modals/lipstick_animated.glb"
+};
+
 export async function readJson(bucket, key) {
   try {
     const command = new GetObjectCommand({
@@ -31,10 +37,17 @@ export async function readJson(bucket, key) {
     });
     const response = await s3.send(command);
     const bodyContents = await response.Body.transformToString();
-    return JSON.parse(bodyContents);
+    const data = JSON.parse(bodyContents);
+    
+    // Inject default settings if they are missing or empty
+    if (!data.settings || Object.keys(data.settings).length === 0) {
+      data.settings = { ...defaultSettings };
+    }
+    
+    return data;
   } catch (error) {
     if (error.name === "NoSuchKey") {
-      return null;
+      return { products: [], settings: { ...defaultSettings } };
     }
     throw error;
   }

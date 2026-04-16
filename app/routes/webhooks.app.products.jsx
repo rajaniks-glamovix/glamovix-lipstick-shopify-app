@@ -21,7 +21,7 @@ export const action = async ({ request }) => {
         // Let's check app.product.jsx logic again.
         // In app.product.jsx: id: value.product_id, productId: value.parent_product_id
         // So product_id is Variant ID and parent_product_id is Product ID.
-        
+
         let updated = false;
         data.products = data.products.map(p => {
           if (p.parent_product_id === productId) {

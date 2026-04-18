@@ -73,6 +73,12 @@ export const loader = async ({ request }) => {
       price: formatPrice(value.price, currencyCode),
       intensity: value.intensity || "5",
       lipstick_type: value.lipstick_type || "matte",
+      specularIntensity: value.specularIntensity || "0",
+      specularPower: value.specularPower || "1",
+      glossBoost: value.glossBoost || "0",
+      saturationMult: value.saturationMult || "1",
+      opacityMult: value.opacityMult || "1",
+      blurMult: value.blurMult || "0.7",
     }));
 
     const originalProducts = initialProducts.reduce((acc, p) => {

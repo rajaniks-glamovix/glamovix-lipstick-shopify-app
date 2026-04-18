@@ -18,7 +18,7 @@ export const loader = async ({ request }) => {
       billingConfigs.MONTHLY_PLAN_ENTERPRISE,
       billingConfigs.YEARLY_PLAN_ENTERPRISE,
     ],
-    isTest: true,
+    isTest: false,
   });
 
   return {
@@ -38,7 +38,7 @@ export const action = async ({ request }) => {
 
   return await billing.request({
     plan,
-    isTest: true,
+    isTest: false,
     returnUrl,
   });
 };

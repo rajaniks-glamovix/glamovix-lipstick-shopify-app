@@ -13,11 +13,11 @@ export default function ProductCard({
 }) {
   const lipstickTypes = [
     "Matte",
+    "Sheer",
     "Glossy",
     "Satin",
-    "Sheer",
-    "Velvet",
-    "Metallic",
+    "Cream",
+
   ];
 
   const isChanged =
@@ -25,6 +25,7 @@ export default function ProductCard({
     product.color !== originalProduct.color ||
     String(product.intensity) !== String(originalProduct.intensity) ||
     product.lipstick_type !== originalProduct.lipstick_type;
+
 
   const handlePreview = () => {
     if (iframeUrl) {
@@ -37,6 +38,13 @@ export default function ProductCard({
         intensity: product.intensity,
         type: product.lipstick_type,
         companyName,
+        specularIntensity: product.specularIntensity,
+        specularPower: product.specularPower,
+        glossBoost: product.glossBoost,
+        saturationMult: product.saturationMult,
+        opacityMult: product.opacityMult,
+        blurMult: product.blurMult,
+
       });
 
       const fullUrl = `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}`;

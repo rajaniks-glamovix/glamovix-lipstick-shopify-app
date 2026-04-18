@@ -97,7 +97,9 @@ export const action = async ({ request }) => {
     }
 
     const body = await request.json();
-    const { shop, productName, color, intensity, type } = body;
+
+
+    const { shop, productName, color, intensity, type, specularIntensity, specularPower, glossBoost, saturationMult, opacityMult, blurMult } = body;
 
     // Validate required fields
     if (!shop || !productName) {
@@ -161,6 +163,14 @@ export const action = async ({ request }) => {
     if (color) data.products[productIndex].color = color;
     if (intensity) data.products[productIndex].intensity = String(intensity);
     if (type) data.products[productIndex].lipstick_type = type;
+    // new data
+    if (specularIntensity !== undefined) data.products[productIndex].specularIntensity = String(specularIntensity);
+    if (specularPower !== undefined) data.products[productIndex].specularPower = String(specularPower);
+    if (glossBoost !== undefined) data.products[productIndex].glossBoost = String(glossBoost);
+    if (saturationMult !== undefined) data.products[productIndex].saturationMult = String(saturationMult);
+    if (opacityMult !== undefined) data.products[productIndex].opacityMult = String(opacityMult);
+    if (blurMult !== undefined) data.products[productIndex].blurMult = String(blurMult);
+
 
     // Write back to S3
     await writeToJson(BUCKET_NAME, key, data);
@@ -170,7 +180,6 @@ export const action = async ({ request }) => {
       {
         success: true,
         message: `Product "${productName}" updated successfully`,
-        product: data.products[productIndex],
       },
       request,
     );

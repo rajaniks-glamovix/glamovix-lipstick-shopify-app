@@ -191,7 +191,7 @@ export default function Index() {
     setThemeCompleted(true);
     const shopName = shop.replace(".myshopify.com", "");
     const themeEditorUrl = `https://admin.shopify.com/store/${shopName}/themes/current/editor?template=product`;
-    window.open(themeEditorUrl, "_blank");
+    window.open(themeEditorUrl, "_top");
     setTimeout(() => setNavigatingTheme(false), 1500);
   };
 

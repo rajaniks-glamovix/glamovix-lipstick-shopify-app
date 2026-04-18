@@ -83,6 +83,52 @@ const validateCompanyAndProduct = async (productId) => {
     return false;
   }
 };
+//analytics
+
+const initGTM = () => {
+  window.dataLayer = window.dataLayer || [];
+
+  // Initialize GTM DataLayer
+  window.dataLayer.push({
+    'gtm.start': new Date().getTime(),
+    event: 'gtm.js'
+  });
+
+  // Load GTM Script
+  let scriptTag = document.createElement('script');
+  scriptTag.async = true;
+  scriptTag.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-59RRWJ3Q';
+  document.head.appendChild(scriptTag);
+
+  // Load noscript GTM
+  let noscriptTag = document.createElement('noscript');
+  let iframe = document.createElement('iframe');
+  iframe.src = 'https://www.googletagmanager.com/ns.html?id=GTM-59RRWJ3Q';
+  iframe.height = "0";
+  iframe.width = "0";
+  iframe.style.display = "none";
+  iframe.style.visibility = "hidden";
+  noscriptTag.appendChild(iframe);
+  document.body.appendChild(noscriptTag);
+
+
+  //listen to postmessage to push to dataLayer
+
+  //this is how the events are passes
+  //ex window.parent.postMessage(
+  //   {
+  //     type: 'add_to_cart',
+  //     productId: product.product_id,
+  //     product_name: product.title || 'Unknown Product',
+  //     company_name: companyName,
+  //   },
+  //   '*',
+  // );
+
+
+
+
+}
 
 const buttonConfigLipstickVTO = () => {
   GlamovixLipstickButton.style.display = "flex";
@@ -130,7 +176,7 @@ const closeLipstickTryon = () => {
     return;
   }
 
-  //gtm
+  initGTM();
 
   // button config
   buttonConfigLipstickVTO();
@@ -140,13 +186,48 @@ const closeLipstickTryon = () => {
 
   // listen to close the iframe and other events
   window.addEventListener("message", (event) => {
+    if (event.origin !== "https://app.glamovix.com") {
+      return;
+    }
     if (event.data === "closeLipstickTryon") {
       closeLipstickTryon();
       return;
     }
 
     if (event.data && typeof event.data === "object") {
+
+      if (event.data.type === "photo_mode") {
+        window.dataLayer.push({
+          event: "photo_mode",
+          company_name: event.data.company_name,
+
+        });
+      }
+      if (event.data.type === "model_viewer") {
+        window.dataLayer.push({
+          event: "model_viewer",
+          company_name: event.data.company_name,
+
+
+        });
+      }
+      if (event.data.type === "tryon_click") {
+        window.dataLayer.push({
+          event: "tryon_click",
+          company_name: event.data.company_name,
+        });
+      }
+    }
+
+    if (event.data && typeof event.data === "object") {
       if (event.data.type === "add_to_cart" && event.data.productId) {
+
+        window.dataLayer.push({
+          event: "add_to_cart",
+          company_name: event.data.company_name,
+          product_id: event.data.productId,
+          product_name: event.data.product_name,
+        });
         // Extract numeric ID from Shopify GID if necessary
         const productIdStr = String(event.data.productId);
         const numericId = productIdStr.includes("/")
@@ -178,8 +259,8 @@ const closeLipstickTryon = () => {
             // Redirect to cart
             const cartUrl =
               window.Shopify &&
-              window.Shopify.routes &&
-              window.Shopify.routes.root
+                window.Shopify.routes &&
+                window.Shopify.routes.root
                 ? window.Shopify.routes.root + "cart"
                 : "/cart";
             window.location.href = cartUrl;

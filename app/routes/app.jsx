@@ -25,7 +25,6 @@ export const loader = async ({ request }) => {
         billingConfigs.MONTHLY_PLAN_ENTERPRISE,
         billingConfigs.YEARLY_PLAN_ENTERPRISE,
       ],
-      isTest: true,
     });
 
     if (!billingCheck.hasActivePayment) {
@@ -34,7 +33,7 @@ export const loader = async ({ request }) => {
       // Redirect directly to Shopify's billing approval page for the Essential plan
       return await billing.request({
         plan: billingConfigs.MONTHLY_PLAN_ESSENTIAL,
-        isTest: true,
+        isTest: false,
         returnUrl,
       });
     }

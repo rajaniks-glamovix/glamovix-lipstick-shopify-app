@@ -34,7 +34,6 @@ export const loader = async ({ request }) => {
   const { currencyCode } = shopData.shop;
 
   const billingCheck = await billing.check({
-    isTest: true,
     plans: [
       MONTHLY_PLAN_ESSENTIAL,
       YEARLY_PLAN_ESSENTIAL,

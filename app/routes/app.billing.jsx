@@ -18,7 +18,6 @@ export const loader = async ({ request }) => {
       billingConfigs.MONTHLY_PLAN_ENTERPRISE,
       billingConfigs.YEARLY_PLAN_ENTERPRISE,
     ],
-    isTest: false,
   });
 
   return {

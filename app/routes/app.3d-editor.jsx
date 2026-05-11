@@ -301,11 +301,12 @@ export default function ThreeDEditor() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            gap: "16px",
             marginBottom: "8px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1 }}>
             <s-text variant="bodyMd">
               <strong>3D Viewer status</strong>
             </s-text>
@@ -319,6 +320,7 @@ export default function ThreeDEditor() {
             style={{
               width: "44px",
               height: "24px",
+              flexShrink: 0,
               backgroundColor: viewerEnabled ? "#008060" : "#bf0711",
               borderRadius: "12px",
               position: "relative",
@@ -342,14 +344,7 @@ export default function ThreeDEditor() {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 350px",
-            gap: "24px",
-            alignItems: "start",
-          }}
-        >
+        <div className="editor-grid">
           {/* Left Column: 3D Preview */}
           <s-stack gap="base">
             <s-card>
@@ -785,6 +780,17 @@ export default function ThreeDEditor() {
         @keyframes spin3d {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        .editor-grid {
+          display: grid;
+          grid-template-columns: 1fr 350px;
+          gap: 24px;
+          align-items: start;
+        }
+        @media (max-width: 768px) {
+          .editor-grid {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </s-page>

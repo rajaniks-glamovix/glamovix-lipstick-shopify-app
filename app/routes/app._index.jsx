@@ -235,8 +235,8 @@ export default function Index() {
           </select>
         </div>
 
-        <div style={{ display: "flex", gap: "16px", width: "100%" }}>
-          <div style={{ flex: 1 }}>
+        <div style={{ display: "flex", gap: "16px", width: "100%", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 250px" }}>
             <AnalyticsCard
               value={stats?.tryon_click?.count || 0}
               title={"No of tryons"}
@@ -250,7 +250,7 @@ export default function Index() {
               />
             </AnalyticsCard>
           </div>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: "1 1 250px" }}>
             <AnalyticsCard
               value={stats?.tryon_click?.users || 0}
               title={"No of users"}
@@ -264,7 +264,7 @@ export default function Index() {
               />
             </AnalyticsCard>
           </div>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: "1 1 250px" }}>
             <AnalyticsCard
               value={stats?.add_to_cart?.count || 0}
               title={"No of add to cart"}
@@ -356,7 +356,7 @@ export default function Index() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                 gap: "20px",
                 marginTop: "12px",
               }}

@@ -464,14 +464,22 @@ export default function Index() {
               />
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: "10px",
-                width: "100%",
-              }}
-            >
+            <style>
+              {`
+                .product-grid {
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                  gap: 10px;
+                  width: 100%;
+                }
+                @media (max-width: 768px) {
+                  .product-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                  }
+                }
+              `}
+            </style>
+            <div className="product-grid">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}

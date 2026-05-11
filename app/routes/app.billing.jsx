@@ -204,15 +204,7 @@ export default function BillingPage() {
           </div>
 
           {/* Plans Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "24px",
-              width: "100%",
-              alignItems: "stretch",
-            }}
-          >
+          <div className="billing-grid">
             {plans.map((plan) => {
               const planId = isYearly ? plan.yearlyPlan : plan.monthlyPlan;
               const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
@@ -512,6 +504,25 @@ export default function BillingPage() {
           </div>
         </div>
       </div>
+      <style>{`
+        .billing-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 24px;
+          width: 100%;
+          align-items: stretch;
+        }
+        @media (max-width: 1024px) {
+          .billing-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (max-width: 768px) {
+          .billing-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </s-page>
   );
 }

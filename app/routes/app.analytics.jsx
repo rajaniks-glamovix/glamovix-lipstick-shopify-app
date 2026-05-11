@@ -550,13 +550,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* TOP SECTION: 4 COLUMN GRID */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "24px",
-            }}
-          >
+          <div className="analytics-grid-4">
             <AnalyticsCard
               title="Lipstick Try-ons"
               value={stats?.tryon_click?.count || 0}
@@ -586,14 +580,7 @@ export default function AnalyticsPage() {
           {/* MIDDLE SECTION: FULL WIDTH COUNTRY DATA */}
           <div style={{ width: "100%" }}>
             <AnalyticsCard title="Global Reach & User Presence">
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "2.5fr 1fr",
-                  gap: "24px",
-                  padding: "0",
-                }}
-              >
+              <div className="analytics-grid-geo">
                 <RealWorldMap data={demographics.countries} />
                 <div
                   style={{
@@ -621,13 +608,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* BOTTOM SECTION: 3 COLUMN BREAKDOWN */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "24px",
-            }}
-          >
+          <div className="analytics-grid-3">
             <AnalyticsCard title="Browser Preferences">
               <div style={{ padding: "16px 0 0" }}>
                 <DonutChart
@@ -655,13 +636,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* FINAL 2x2 INSIGHTS */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "24px",
-            }}
-          >
+          <div className="analytics-grid-2">
             <AnalyticsCard
               title="Add-to-Cart Rate"
               value={`${stats?.tryon_click?.count ? ((stats.add_to_cart.count / stats.tryon_click.count) * 100).toFixed(1) : 0}%`}
@@ -677,6 +652,23 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </div>
+      <style>{`
+        .analytics-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .analytics-grid-geo { display: grid; grid-template-columns: 2.5fr 1fr; gap: 24px; padding: 0; }
+        .analytics-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .analytics-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+        @media (max-width: 1024px) {
+          .analytics-grid-4 { grid-template-columns: repeat(2, 1fr); }
+          .analytics-grid-geo { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+          .analytics-grid-4, .analytics-grid-3, .analytics-grid-2, .analytics-grid-geo {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </s-page>
   );
 }

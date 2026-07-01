@@ -32,6 +32,7 @@ const shopify = shopifyApp({
   },
   billing: {
     [MONTHLY_PLAN_ESSENTIAL]: {
+      trialDays: 7,
       lineItems: [
         {
           amount: 39.0,

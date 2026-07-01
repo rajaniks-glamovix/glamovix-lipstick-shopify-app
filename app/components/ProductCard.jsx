@@ -17,6 +17,8 @@ export default function ProductCard({
     "Glossy",
     "Satin",
     "Cream",
+    "Shimmer",
+    "Metallic",
 
   ];
 
@@ -47,7 +49,7 @@ export default function ProductCard({
 
       });
 
-      const fullUrl = `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}`;
+      const fullUrl = `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}&photo_mode=true&slider=true`;
 
       // Opening in a new tab bypasses Shopify's iframe permission restrictions
       window.open(fullUrl, "_blank", "noopener,noreferrer");

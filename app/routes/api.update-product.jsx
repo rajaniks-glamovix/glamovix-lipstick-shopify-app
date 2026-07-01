@@ -99,7 +99,7 @@ export const action = async ({ request }) => {
     const body = await request.json();
 
 
-    const { shop, productName, color, intensity, type, specularIntensity, specularPower, glossBoost, saturationMult, opacityMult, blurMult } = body;
+    const { shop, productName, color, intensity, type, specularIntensity, specularPower, glossBoost, saturationMult, opacityMult, blurMult, shimmerIntensity } = body;
 
     // Validate required fields
     if (!shop || !productName) {
@@ -170,6 +170,8 @@ export const action = async ({ request }) => {
     if (saturationMult !== undefined) data.products[productIndex].saturationMult = String(saturationMult);
     if (opacityMult !== undefined) data.products[productIndex].opacityMult = String(opacityMult);
     if (blurMult !== undefined) data.products[productIndex].blurMult = String(blurMult);
+    if (shimmerIntensity !== undefined) data.products[productIndex].shimmerIntensity = String(shimmerIntensity);
+
 
 
     // Write back to S3

@@ -287,8 +287,29 @@ GlamovixLipstickButton.onclick = async () => {
     glamovixLipstickIframe.allow = "camera *; web-share;";
   }
 
+  // Find the selected variant ID across all types of Shopify themes
+  let currentVariantId = null;
+
+  // 1. Check the closest or main Add to Cart form (Most reliable across ALL themes)
+  const productForm = GlamovixLipstickButton.closest('form[action*="/cart/add"]') || document.querySelector('form[action*="/cart/add"]');
+  if (productForm) {
+    const variantInput = productForm.querySelector('[name="id"]');
+    if (variantInput && variantInput.value) {
+      currentVariantId = variantInput.value;
+    }
+  }
+
+  // 2. Fallback to URL parameters (Reliable on modern OS 2.0 themes)
+  if (!currentVariantId) {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentVariantId = urlParams.get('variant');
+  }
+
+  // 3. Fallback to initial loaded dataset ID
+  currentVariantId = currentVariantId || buttonSettings.productId;
+
   //At last show iframe
-  glamovixLipstickIframe.src = `https://app.glamovix.com/?companyName=${companyGlamovixLipstick}&product=${buttonSettings.productId}`;
+  glamovixLipstickIframe.src = `https://app.glamovix.com/?companyName=${companyGlamovixLipstick}&product=${currentVariantId}`;
   glamovixLipstickIframe.style.display = "block";
 
   document.body.classList.add("overflow");

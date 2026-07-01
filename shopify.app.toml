@@ -2,14 +2,22 @@
 
 client_id = "43b7114706ab63e0fdbbe0728f143880"
 name = "Glamovix Lipstick Tryon"
-application_url = "https://example.com"
+application_url = "https://lipstick.glamovix.com"
 embedded = true
 
 [build]
-automatically_update_urls_on_dev = true
+automatically_update_urls_on_dev = false
 
 [webhooks]
 api_version = "2026-07"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+  uri = "/webhooks/app/compliance"
+
+  [[webhooks.subscriptions]]
+  topics = ["products/update"]
+  uri = "/webhooks/app/products"
 
   [[webhooks.subscriptions]]
   topics = [ "app/scopes_update" ]
@@ -24,7 +32,7 @@ api_version = "2026-07"
 scopes = "write_products,write_metaobjects,write_metaobject_definitions"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://lipstick.glamovix.com/api/auth/callback" ]
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"

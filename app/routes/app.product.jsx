@@ -78,6 +78,7 @@ export const loader = async ({ request }) => {
       saturationMult: value.saturationMult || "1",
       opacityMult: value.opacityMult || "1",
       blurMult: value.blurMult || "0.7",
+      shimmerIntensity: value.shimmerIntensity || "0.8",
     }));
 
     const originalProducts = initialProducts.reduce((acc, p) => {

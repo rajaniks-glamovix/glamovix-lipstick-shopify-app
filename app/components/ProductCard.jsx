@@ -46,7 +46,7 @@ export default function ProductCard({
         saturationMult: product.saturationMult,
         opacityMult: product.opacityMult,
         blurMult: product.blurMult,
-
+        shimmerIntensity: product.shimmerIntensity,
       });
 
       const fullUrl = `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}&photo_mode=true&slider=true`;

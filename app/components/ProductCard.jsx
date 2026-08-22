@@ -29,32 +29,49 @@ export default function ProductCard({
     product.lipstick_type !== originalProduct.lipstick_type;
 
 
-  const handlePreview = () => {
-    if (iframeUrl) {
-      // Build the URL with parameters
-      const params = new URLSearchParams({
-        preview: "true",
-        product: product.title,
-        price: product.price,
-        color: product.color.replace("#", ""),
-        intensity: product.intensity,
-        type: product.lipstick_type,
-        companyName,
-        specularIntensity: product.specularIntensity,
-        specularPower: product.specularPower,
-        glossBoost: product.glossBoost,
-        saturationMult: product.saturationMult,
-        opacityMult: product.opacityMult,
-        blurMult: product.blurMult,
-        shimmerIntensity: product.shimmerIntensity,
-      });
-
-      const fullUrl = `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}&photo_mode=true&slider=true`;
-
-      // Opening in a new tab bypasses Shopify's iframe permission restrictions
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
-    } else {
+  const buildPreviewUrl = (isPhotoMode = false) => {
+    if (!iframeUrl) {
       console.error("Preview URL is not defined in .env");
+      return null;
+    }
+
+    // Build the URL with parameters
+    const params = new URLSearchParams({
+      preview: "true",
+      product: product.title || "",
+      price: product.price || "",
+      color: (product.color || "").replace("#", ""),
+      intensity: String(product.intensity ?? "5"),
+      type: product.lipstick_type || "matte",
+      companyName: companyName || "",
+      specularIntensity: String(product.specularIntensity ?? "0"),
+      specularPower: String(product.specularPower ?? "1"),
+      glossBoost: String(product.glossBoost ?? "0"),
+      saturationMult: String(product.saturationMult ?? "1"),
+      opacityMult: String(product.opacityMult ?? "1"),
+      blurMult: String(product.blurMult ?? "0.7"),
+      shimmerIntensity: String(product.shimmerIntensity ?? "0.8"),
+      slider: "true",
+    });
+
+    if (isPhotoMode) {
+      params.set("photo_mode", "true");
+    }
+
+    return `${iframeUrl}${iframeUrl.includes("?") ? "&" : "?"}${params.toString()}`;
+  };
+
+  const handlePhotoPreview = () => {
+    const fullUrl = buildPreviewUrl(true);
+    if (fullUrl) {
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleLivePreview = () => {
+    const fullUrl = buildPreviewUrl(false);
+    if (fullUrl) {
+      window.open(fullUrl, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -256,52 +273,81 @@ export default function ProductCard({
             </div>
           </s-stack>
 
-          {/* ACTION: Save and Preview Buttons */}
+          {/* ACTION: Preview and Save Buttons */}
           <div
             style={{
               width: "100%",
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
               gap: "8px",
               marginTop: "10px",
             }}
           >
-            <s-button
-              variant="primary"
-              onClick={() => onSave(product)}
-              disabled={!isChanged || loading}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "8px",
+                width: "100%",
+              }}
             >
-              {loading ? (
-                <svg
-                  className="spin"
-                  viewBox="0 0 20 20"
-                  style={{ width: "16px", height: "16px" }}
-                >
-                  <style>
-                    {`
-                      .spin { animation: rotate 2s linear infinite; }
-                      @keyframes rotate {
-                        100% { transform: rotate(360deg); }
-                      }
-                    `}
-                  </style>
-                  <path
-                    d="M10 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm0 2c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z"
-                    fill="currentColor"
-                    opacity="0.2"
-                  />
-                  <path
-                    d="M10 2c4.418 0 8 3.582 8 8h-2c0-3.314-2.686-6-6-6V2z"
-                    fill="currentColor"
-                  />
-                </svg>
-              ) : (
-                "Save"
-              )}
-            </s-button>
-            <s-button variant="secondary" onClick={handlePreview}>
-              Preview
-            </s-button>
+              <s-button
+                variant="secondary"
+                onClick={handlePhotoPreview}
+                title="Match and preview lipstick shade on a photo"
+              >
+                Photo Preview
+              </s-button>
+              <s-button
+                variant="secondary"
+                onClick={handleLivePreview}
+                title="Match and preview lipstick shade on live camera"
+              >
+                Live Preview
+              </s-button>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <s-button
+                variant="primary"
+                onClick={() => onSave(product)}
+                disabled={!isChanged || loading}
+                style={{ minWidth: "120px" }}
+              >
+                {loading ? (
+                  <svg
+                    className="spin"
+                    viewBox="0 0 20 20"
+                    style={{ width: "16px", height: "16px" }}
+                  >
+                    <style>
+                      {`
+                        .spin { animation: rotate 2s linear infinite; }
+                        @keyframes rotate {
+                          100% { transform: rotate(360deg); }
+                        }
+                      `}
+                    </style>
+                    <path
+                      d="M10 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm0 2c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z"
+                      fill="currentColor"
+                      opacity="0.2"
+                    />
+                    <path
+                      d="M10 2c4.418 0 8 3.582 8 8h-2c0-3.314-2.686-6-6-6V2z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                ) : (
+                  "Save"
+                )}
+              </s-button>
+            </div>
           </div>
         </s-stack>
       </s-card>

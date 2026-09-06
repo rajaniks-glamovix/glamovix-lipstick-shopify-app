@@ -288,7 +288,7 @@ export default function ThreeDEditor() {
     allModels.find((m) => m.url === selectedModel) || allModels[0];
 
   return (
-    <s-page heading="3D Asset Manager">
+    <s-page heading="3D Asset Manager" fullWidth>
       <s-stack gap="base">
         {/* Toggle Section */}
         <div

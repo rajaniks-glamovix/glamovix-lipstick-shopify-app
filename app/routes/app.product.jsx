@@ -831,25 +831,26 @@ export default function Index() {
             >
               <div
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  backgroundColor: "#f1f1f1",
+                  width: "96px",
+                  height: "96px",
+                  background: "linear-gradient(135deg, var(--gx-gold-100) 0%, var(--gx-gold-300) 100%)",
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  marginBottom: "20px",
+                  marginBottom: "24px",
+                  boxShadow: "0 8px 16px rgba(162, 132, 94, 0.2)",
                 }}
               >
                 <svg
-                  viewBox="0 0 20 20"
-                  style={{ width: "40px", height: "40px", fill: "#5c5f62" }}
+                  viewBox="0 0 24 24"
+                  style={{ width: "48px", height: "48px", fill: "var(--gx-gold-600)" }}
                 >
-                  <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-1 4a1 1 0 112 0 1 1 0 01-2 0zm1 11a7 7 0 110-14 7 7 0 010 14zm1-8h-2v1h1v3h-1v1h3v-1h-1V9z" />
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
                 </svg>
               </div>
               <s-text variant="headingLg" as="h2">
-                No products added yet
+                Upload first lipstick model
               </s-text>
               <div style={{ maxWidth: "400px", margin: "12px 0 24px" }}>
                 <s-text tone="subdued">
@@ -957,25 +958,33 @@ export default function Index() {
                   `}
                 </style>
                 <s-text>
-                  <span style={{ color: "white" }}>
-                    {selectedIds.length}{" "}
-                    {selectedIds.length === 1 ? "product" : "products"} selected
+                  <span style={{ color: "white", fontSize: "14px" }}>
+                    <strong>{selectedIds.length}</strong> {selectedIds.length === 1 ? "shade" : "shades"} extracted. Verify against photo.
                   </span>
                 </s-text>
-                <s-button
-                  variant="primary"
+                <button
                   onClick={handleSaveSelected}
-                  loading={isAiAnalyzing || isBatchSaving ? "true" : undefined}
                   disabled={isAiAnalyzing || fetcher.state !== "idle"}
+                  style={{
+                    backgroundColor: "var(--gx-gold-500)",
+                    color: "var(--gx-noir)",
+                    border: "none",
+                    borderRadius: "8px",
+                    padding: "10px 24px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    cursor: (isAiAnalyzing || fetcher.state !== "idle") ? "not-allowed" : "pointer",
+                    boxShadow: "0 4px 12px rgba(162,132,94,0.4)",
+                    opacity: (isAiAnalyzing || fetcher.state !== "idle") ? 0.7 : 1,
+                    transition: "all 0.2s ease"
+                  }}
                 >
-                  <span style={{ color: "white" }}>
-                    {isAiAnalyzing
-                      ? `AI Analyzing (${aiStatus.processed}/${aiStatus.total})...`
-                      : isBatchSaving
-                      ? "Saving..."
-                      : "Save selected"}
-                  </span>
-                </s-button>
+                  {isAiAnalyzing
+                    ? `AI Analyzing (${aiStatus.processed}/${aiStatus.total})...`
+                    : isBatchSaving
+                    ? "Approving..."
+                    : "Approve Shades"}
+                </button>
                 <s-button
                   tone="critical"
                   variant="primary"

@@ -549,6 +549,41 @@ export default function AnalyticsPage() {
             </select>
           </div>
 
+          {/* CONVERSION LIFT HERO BANNER */}
+          {stats?.tryon_click?.count > 0 && (
+            <div
+              style={{
+                width: "100%",
+                background: "linear-gradient(135deg, var(--gx-noir) 0%, #1a1a1a 100%)",
+                borderRadius: "16px",
+                padding: "32px 40px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "white"
+              }}
+            >
+              <div>
+                <s-text variant="headingLg" as="h2">
+                  <span style={{ color: "var(--gx-gold-300)" }}>Virtual Try-On Impact</span>
+                </s-text>
+                <div style={{ marginTop: "8px", color: "var(--gx-neutral-300)" }}>
+                  <s-text>High-intent try-ons converted to cart additions</s-text>
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
+                <span style={{ fontSize: "56px", fontWeight: "800", color: "var(--gx-gold-500)", lineHeight: 1 }}>
+                  {Math.round(((stats?.add_to_cart?.count || 0) / (stats?.tryon_click?.count || 1)) * 100)}%
+                </span>
+                <span style={{ fontSize: "16px", color: "var(--gx-gold-200)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1px" }}>
+                  Conversion Lift
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* TOP SECTION: 4 COLUMN GRID */}
           <div className="analytics-grid-4">
             <AnalyticsCard

@@ -6,6 +6,7 @@ import {
   useSubmit,
 } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
+import { Page, BlockStack } from "@shopify/polaris";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import AnalyticsCard from "../components/AnalyticsCard";
@@ -204,8 +205,8 @@ export default function Index() {
   };
 
   return (
-    <s-page heading="Home">
-      <s-stack rowGap="large">
+    <Page title="Home">
+      <BlockStack gap="500">
         <div
           style={{
             display: "flex",
@@ -219,8 +220,9 @@ export default function Index() {
             style={{
               padding: "8px 12px",
               borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              backgroundColor: "white",
+              border: "1px solid var(--gx-neutral-200)",
+              backgroundColor: "var(--gx-surface-light)",
+              color: "var(--gx-neutral-900)",
               fontSize: "14px",
               fontWeight: "500",
               cursor: "pointer",
@@ -290,8 +292,8 @@ export default function Index() {
           navigatingTheme={navigatingTheme}
           navigatingProduct={navigatingProduct}
         />
-      </s-stack>
-    </s-page>
+      </BlockStack>
+    </Page>
   );
 }
 

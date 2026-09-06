@@ -99,8 +99,8 @@ export default function BillingPage() {
       features: [
         "Everything in Basic",
         "600 products",
-        "Custom 3D models upload",
-        "requests 3D model creation",
+        "Custom 3D Model Upload",
+        "Custom Shader Tuning",
         "24 * 7 Priority support",
         "Custom branding",
         "Advanced analytics",
@@ -115,7 +115,7 @@ export default function BillingPage() {
       features: [
         "Everything in Premium",
         "Unlimited products",
-        "Full 3D model management",
+        "Full 3D Model Management & Pipeline",
         "Dedicated 24 * 7 support",
         "Custom Branding & UI",
         "Enterprise analytics",
@@ -213,21 +213,27 @@ export default function BillingPage() {
                 navigation.state !== "idle" &&
                 navigation.formData?.get("plan") === planId;
 
+              const isGold = plan.name === "Premium" || plan.name === "Enterprise";
+
               return (
                 <div
                   key={plan.name}
                   style={{
                     background: isCurrent
                       ? "linear-gradient(135deg, #f0fdf4 0%, #ffffff 40%)"
-                      : plan.popular
-                        ? "linear-gradient(135deg, #eef2ff 0%, #ffffff 40%)"
-                        : "#ffffff",
+                      : isGold
+                        ? "linear-gradient(135deg, var(--gx-gold-100) 0%, #ffffff 40%)"
+                        : plan.popular
+                          ? "linear-gradient(135deg, #eef2ff 0%, #ffffff 40%)"
+                          : "#ffffff",
                     borderRadius: "20px",
                     border: isCurrent
                       ? "2px solid #16a34a"
-                      : plan.popular
-                        ? "2px solid #6366f1"
-                        : "1px solid #e5e7eb",
+                      : isGold
+                        ? "2px solid var(--gx-gold-500)"
+                        : plan.popular
+                          ? "2px solid #6366f1"
+                          : "1px solid #e5e7eb",
                     padding: "32px 24px",
                     display: "flex",
                     flexDirection: "column",
@@ -235,26 +241,32 @@ export default function BillingPage() {
                     transition: "transform 0.25s ease, box-shadow 0.25s ease",
                     boxShadow: isCurrent
                       ? "0 8px 32px rgba(22,163,74,0.12)"
-                      : plan.popular
-                        ? "0 8px 32px rgba(99,102,241,0.15)"
-                        : "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)",
+                      : isGold
+                        ? "0 8px 32px rgba(162,132,94,0.15)"
+                        : plan.popular
+                          ? "0 8px 32px rgba(99,102,241,0.15)"
+                          : "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)",
                     cursor: "default",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-4px)";
                     e.currentTarget.style.boxShadow = isCurrent
                       ? "0 16px 48px rgba(22,163,74,0.18)"
-                      : plan.popular
-                        ? "0 16px 48px rgba(99,102,241,0.22)"
-                        : "0 8px 32px rgba(0,0,0,0.08)";
+                      : isGold
+                        ? "0 16px 48px rgba(162,132,94,0.22)"
+                        : plan.popular
+                          ? "0 16px 48px rgba(99,102,241,0.22)"
+                          : "0 8px 32px rgba(0,0,0,0.08)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "translateY(0)";
                     e.currentTarget.style.boxShadow = isCurrent
                       ? "0 8px 32px rgba(22,163,74,0.12)"
-                      : plan.popular
-                        ? "0 8px 32px rgba(99,102,241,0.15)"
-                        : "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)";
+                      : isGold
+                        ? "0 8px 32px rgba(162,132,94,0.15)"
+                        : plan.popular
+                          ? "0 8px 32px rgba(99,102,241,0.15)"
+                          : "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)";
                   }}
                 >
                   {/* Badge */}

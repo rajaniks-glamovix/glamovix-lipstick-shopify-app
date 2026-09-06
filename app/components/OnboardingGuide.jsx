@@ -6,7 +6,7 @@ const RocketIcon = () => (
     height="22"
     viewBox="0 0 24 24"
     fill="none"
-    stroke="#5E4BF8"
+    stroke="var(--gx-gold-500)"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
@@ -15,7 +15,7 @@ const RocketIcon = () => (
     <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
     <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
     <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-    <circle cx="15" cy="9" r="1.3" fill="#5E4BF8" />
+    <circle cx="15" cy="9" r="1.3" fill="var(--gx-gold-500)" />
   </svg>
 );
 
@@ -85,7 +85,7 @@ const SingleLipstickGraphic = () => (
       </linearGradient>
       <linearGradient id="glamSilverCollar" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stopColor="#94A3B8" />
-        <stop offset="40%" stopColor="#FFFFFF" />
+        <stop offset="40%" stopColor="var(--gx-surface-light)" />
         <stop offset="80%" stopColor="#CBD5E1" />
         <stop offset="100%" stopColor="#64748B" />
       </linearGradient>
@@ -146,7 +146,7 @@ const DualLipstickGraphic = () => (
       </linearGradient>
       <linearGradient id="glamSilverCollar2" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stopColor="#94A3B8" />
-        <stop offset="40%" stopColor="#FFFFFF" />
+        <stop offset="40%" stopColor="var(--gx-surface-light)" />
         <stop offset="80%" stopColor="#CBD5E1" />
         <stop offset="100%" stopColor="#64748B" />
       </linearGradient>
@@ -182,8 +182,8 @@ const DualLipstickGraphic = () => (
     {/* Right Lipstick (Closed Gold Tube) */}
     <rect x="26.5" y="16" width="14" height="38" rx="2.5" fill="url(#glamGoldCap)" />
     {/* Sheen lines */}
-    <line x1="29.5" y1="18" x2="29.5" y2="52" stroke="#FFFFFF" strokeOpacity="0.4" strokeWidth="0.8" />
-    <line x1="33" y1="18" x2="33" y2="52" stroke="#FFFFFF" strokeOpacity="0.6" strokeWidth="1" />
+    <line x1="29.5" y1="18" x2="29.5" y2="52" stroke="var(--gx-surface-light)" strokeOpacity="0.4" strokeWidth="0.8" />
+    <line x1="33" y1="18" x2="33" y2="52" stroke="var(--gx-surface-light)" strokeOpacity="0.6" strokeWidth="1" />
     <line x1="36.5" y1="18" x2="36.5" y2="52" stroke="#B38A20" strokeOpacity="0.5" strokeWidth="0.8" />
     {/* Cap divider line */}
     <line x1="26.5" y1="34" x2="40.5" y2="34" stroke="#8C660D" strokeWidth="0.8" />
@@ -210,11 +210,11 @@ export default function OnboardingGuide({
     <div
       className="glamovix-onboarding-container"
       style={{
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "var(--gx-surface-light)",
         borderRadius: "18px",
         padding: "28px 32px",
-        border: "1px solid #ECEAFD",
-        boxShadow: "0 4px 20px -2px rgba(99, 102, 241, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02)",
+        border: "1px solid var(--gx-neutral-200)",
+        boxShadow: "0 4px 20px -2px rgba(191, 130, 64, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02)",
         fontFamily:
           "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         boxSizing: "border-box",
@@ -247,15 +247,15 @@ export default function OnboardingGuide({
         .glamovix-step-card {
           flex: 1 1 0;
           min-width: 0;
-          background-color: #FFFFFF;
-          border: 1.5px solid #ECEAFD;
+          background-color: var(--gx-surface-light);
+          border: 1.5px solid var(--gx-neutral-200);
           border-radius: 16px;
           padding: 20px 22px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 14px;
-          box-shadow: 0 2px 10px rgba(99, 102, 241, 0.03);
+          box-shadow: 0 2px 10px rgba(191, 130, 64, 0.03);
           box-sizing: border-box;
         }
 
@@ -271,7 +271,7 @@ export default function OnboardingGuide({
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #6366F1;
+          color: var(--gx-gold-500);
           flex-shrink: 0;
           align-self: center;
           transition: transform 0.25s ease;
@@ -286,8 +286,8 @@ export default function OnboardingGuide({
         }
 
         .glamovix-bottom-bar {
-          background-color: #F8F9FE;
-          border: 1px solid #ECEAFD;
+          background-color: var(--gx-surface-raised-light);
+          border: 1px solid var(--gx-neutral-200);
           border-radius: 14px;
           padding: 16px 22px 22px 22px;
           display: flex;
@@ -387,8 +387,8 @@ export default function OnboardingGuide({
             width: "44px",
             height: "44px",
             borderRadius: "50%",
-            backgroundColor: "#F0EEFE",
-            color: "#6366F1",
+            backgroundColor: "var(--gx-gold-50)",
+            color: "var(--gx-gold-500)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -442,15 +442,15 @@ export default function OnboardingGuide({
           style={{
             flex: "1 1 0",
             minWidth: 0,
-            backgroundColor: "#FFFFFF",
-            border: "1.5px solid #ECEAFD",
+            backgroundColor: "var(--gx-surface-light)",
+            border: "1.5px solid var(--gx-neutral-200)",
             borderRadius: "16px",
             padding: "20px 22px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: "14px",
-            boxShadow: "0 2px 10px rgba(99, 102, 241, 0.03)",
+            boxShadow: "0 2px 10px rgba(191, 130, 64, 0.03)",
             boxSizing: "border-box",
           }}
         >
@@ -510,8 +510,8 @@ export default function OnboardingGuide({
               onMouseEnter={() => setHoverBtn1(true)}
               onMouseLeave={() => setHoverBtn1(false)}
               style={{
-                backgroundColor: hoverBtn1 ? "#4F3DE8" : "#5E4BF8",
-                color: "#FFFFFF",
+                backgroundColor: hoverBtn1 ? "var(--gx-gold-600)" : "var(--gx-gold-500)",
+                color: "var(--gx-surface-light)",
                 fontSize: "12.5px",
                 fontWeight: "600",
                 padding: "8px 14px",
@@ -539,14 +539,14 @@ export default function OnboardingGuide({
               width: "150px",
               minWidth: "150px",
               height: "116px",
-              backgroundColor: "#F6F5FD",
-              border: "1px solid #ECEAFD",
+              backgroundColor: "var(--gx-surface-raised-light)",
+              border: "1px solid var(--gx-neutral-200)",
               borderRadius: "12px",
               padding: "7px 8px 9px 8px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              boxShadow: "0 4px 14px rgba(99, 102, 241, 0.05)",
+              boxShadow: "0 4px 14px rgba(191, 130, 64, 0.05)",
               flexShrink: 0,
               boxSizing: "border-box",
             }}
@@ -561,7 +561,7 @@ export default function OnboardingGuide({
             {/* Inner Mock Store Card */}
             <div
               style={{
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "var(--gx-surface-light)",
                 borderRadius: "8px",
                 padding: "6px 8px",
                 display: "flex",
@@ -599,8 +599,8 @@ export default function OnboardingGuide({
                       display: "inline-flex",
                       alignItems: "center",
                       gap: "4px",
-                      backgroundColor: "#5E4BF8",
-                      color: "#FFFFFF",
+                      backgroundColor: "var(--gx-gold-500)",
+                      color: "var(--gx-surface-light)",
                       borderRadius: "5px",
                       padding: "3px 7px",
                       fontSize: "9px",
@@ -652,7 +652,7 @@ export default function OnboardingGuide({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#6366F1",
+            color: "var(--gx-gold-500)",
             flexShrink: 0,
             alignSelf: "center",
           }}
@@ -662,7 +662,7 @@ export default function OnboardingGuide({
             height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#6366F1"
+            stroke="var(--gx-gold-500)"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -678,8 +678,8 @@ export default function OnboardingGuide({
           style={{
             flex: "1 1 0",
             minWidth: 0,
-            backgroundColor: "#FFFFFF",
-            border: "1.5px solid #ECEAFD",
+            backgroundColor: "var(--gx-surface-light)",
+            border: "1.5px solid var(--gx-neutral-200)",
             borderRadius: "16px",
             padding: "20px 22px",
             display: "flex",
@@ -746,7 +746,7 @@ export default function OnboardingGuide({
               onMouseEnter={() => setHoverBtn2(true)}
               onMouseLeave={() => setHoverBtn2(false)}
               style={{
-                backgroundColor: hoverBtn2 ? "#F9FAFB" : "#FFFFFF",
+                backgroundColor: hoverBtn2 ? "#F9FAFB" : "var(--gx-surface-light)",
                 color: "#1F2937",
                 fontSize: "12.5px",
                 fontWeight: "600",
@@ -775,8 +775,8 @@ export default function OnboardingGuide({
               width: "150px",
               minWidth: "150px",
               height: "116px",
-              backgroundColor: "#F8F9FE",
-              border: "1px solid #ECEAFD",
+              backgroundColor: "var(--gx-surface-raised-light)",
+              border: "1px solid var(--gx-neutral-200)",
               borderRadius: "12px",
               padding: "9px",
               display: "flex",
@@ -797,14 +797,14 @@ export default function OnboardingGuide({
                 width: "18px",
                 height: "18px",
                 borderRadius: "50%",
-                backgroundColor: "#6366F1",
-                color: "#FFFFFF",
+                backgroundColor: "var(--gx-gold-500)",
+                color: "var(--gx-surface-light)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "13px",
                 fontWeight: "600",
-                boxShadow: "0 2px 5px rgba(99, 102, 241, 0.35)",
+                boxShadow: "0 2px 5px rgba(191, 130, 64, 0.35)",
                 lineHeight: 1,
                 zIndex: 2,
               }}
@@ -815,7 +815,7 @@ export default function OnboardingGuide({
             {/* Inner White Card */}
             <div
               style={{
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "var(--gx-surface-light)",
                 borderRadius: "8px",
                 padding: "8px 10px",
                 display: "flex",
@@ -864,8 +864,8 @@ export default function OnboardingGuide({
       <div
         className="glamovix-bottom-bar"
         style={{
-          backgroundColor: "#F8F9FE",
-          border: "1px solid #ECEAFD",
+          backgroundColor: "var(--gx-surface-raised-light)",
+          border: "1px solid var(--gx-neutral-200)",
           borderRadius: "14px",
           padding: "16px 22px 22px 22px",
           display: "flex",
@@ -882,8 +882,8 @@ export default function OnboardingGuide({
               width: "28px",
               height: "28px",
               borderRadius: "50%",
-              backgroundColor: "#818CF8",
-              color: "#FFFFFF",
+              backgroundColor: "var(--gx-gold-400)",
+              color: "var(--gx-surface-light)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -944,8 +944,8 @@ export default function OnboardingGuide({
                 width: "22px",
                 height: "22px",
                 borderRadius: "50%",
-                backgroundColor: "#5E4BF8",
-                color: "#FFFFFF",
+                backgroundColor: "var(--gx-gold-500)",
+                color: "var(--gx-surface-light)",
                 fontSize: "11px",
                 fontWeight: "700",
                 display: "flex",
@@ -960,7 +960,7 @@ export default function OnboardingGuide({
               style={{
                 fontSize: "11px",
                 fontWeight: "600",
-                color: "#5E4BF8",
+                color: "var(--gx-gold-500)",
                 marginTop: "6px",
                 whiteSpace: "nowrap",
                 textAlign: "center",
@@ -986,7 +986,7 @@ export default function OnboardingGuide({
               style={{
                 width: productCompleted ? "100%" : "60%",
                 height: "100%",
-                backgroundColor: "#5E4BF8",
+                backgroundColor: "var(--gx-gold-500)",
                 transition: "width 0.3s ease",
               }}
             />
@@ -1006,8 +1006,8 @@ export default function OnboardingGuide({
                 height: "22px",
                 borderRadius: "50%",
                 border: productCompleted ? "none" : "1.5px solid #D1D5DB",
-                backgroundColor: productCompleted ? "#5E4BF8" : "#FFFFFF",
-                color: productCompleted ? "#FFFFFF" : "#9CA3AF",
+                backgroundColor: productCompleted ? "var(--gx-gold-500)" : "var(--gx-surface-light)",
+                color: productCompleted ? "var(--gx-surface-light)" : "#9CA3AF",
                 fontSize: "11px",
                 fontWeight: "600",
                 display: "flex",
@@ -1022,7 +1022,7 @@ export default function OnboardingGuide({
               style={{
                 fontSize: "11px",
                 fontWeight: productCompleted ? "600" : "500",
-                color: productCompleted ? "#5E4BF8" : "#6B7280",
+                color: productCompleted ? "var(--gx-gold-500)" : "#6B7280",
                 marginTop: "6px",
                 whiteSpace: "nowrap",
                 textAlign: "center",

@@ -160,7 +160,6 @@ const closeLipstickTryon = () => {
     "glamovix-lipstick-iframe",
   );
   glamovixLipstickIframeEl.parentNode.removeChild(glamovixLipstickIframeEl);
-  document.body.classList.remove("overflow");
   glamovixLipstickIframe = null;
 };
 
@@ -234,6 +233,50 @@ const closeLipstickTryon = () => {
           ? productIdStr.split("/").pop()
           : productIdStr;
 
+        // Prevent double clicks
+        if (window.isGlamovixAddingToCart) return;
+        window.isGlamovixAddingToCart = true;
+
+        // Create overlay
+        const overlay = document.createElement("div");
+        overlay.style.cssText = `
+          position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+          background: rgba(0,0,0,0.4); z-index: 99999999999999;
+          display: flex; align-items: center; justify-content: center;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        `;
+        
+        const loaderBox = document.createElement("div");
+        loaderBox.style.cssText = `
+          background: #fff; padding: 20px 32px; border-radius: 12px;
+          display: flex; flex-direction: column; align-items: center; gap: 12px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        `;
+        
+        const spinner = document.createElement("div");
+        spinner.style.cssText = `
+          width: 24px; height: 24px; border: 3px solid #f3f3f3;
+          border-top: 3px solid #000; border-radius: 50%;
+          animation: gx-spin 1s linear infinite;
+        `;
+        
+        const text = document.createElement("div");
+        text.innerText = "Adding to Bag...";
+        text.style.cssText = "font-weight: 600; font-size: 14px; color: #000;";
+        
+        // Add keyframes if not exists
+        if (!document.getElementById("gx-spinner-style")) {
+          const style = document.createElement("style");
+          style.id = "gx-spinner-style";
+          style.innerHTML = "@keyframes gx-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }";
+          document.head.appendChild(style);
+        }
+        
+        loaderBox.appendChild(spinner);
+        loaderBox.appendChild(text);
+        overlay.appendChild(loaderBox);
+        document.body.appendChild(overlay);
+
         // Call Shopify Cart Ajax API
         const cartAddUrl =
           window.Shopify && window.Shopify.routes && window.Shopify.routes.root
@@ -254,20 +297,41 @@ const closeLipstickTryon = () => {
             ],
           }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) throw new Error("Cart add failed");
+            return response.json();
+          })
           .then(() => {
-            // Redirect to cart
-            const cartUrl =
-              window.Shopify &&
-                window.Shopify.routes &&
-                window.Shopify.routes.root
-                ? window.Shopify.routes.root + "cart"
-                : "/cart";
-            window.location.href = cartUrl;
+            // Success State
+            spinner.style.display = "none";
+            loaderBox.innerHTML = `
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#008060" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <div style="font-weight: 600; font-size: 14px; color: #008060; margin-top: 8px;">Added!</div>
+            `;
+            
+            setTimeout(() => {
+              const cartUrl =
+                window.Shopify &&
+                  window.Shopify.routes &&
+                  window.Shopify.routes.root
+                  ? window.Shopify.routes.root + "cart"
+                  : "/cart";
+              window.location.href = cartUrl;
+            }, 600);
           })
           .catch((error) => {
             console.error("Error adding to cart:", error);
-            alert("Could not add item to cart. Please try again.");
+            loaderBox.innerHTML = `
+              <div style="color: #d82c0d; font-weight: 600; margin-bottom: 8px;">Could not sync with cart.</div>
+              <button id="gx-retry-btn" style="background: #000; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600;">Tap to Retry</button>
+            `;
+            document.getElementById("gx-retry-btn").onclick = () => {
+              document.body.removeChild(overlay);
+              window.isGlamovixAddingToCart = false;
+            };
           });
       }
     }
@@ -311,6 +375,4 @@ GlamovixLipstickButton.onclick = async () => {
   //At last show iframe
   glamovixLipstickIframe.src = `https://app.glamovix.com/?companyName=${companyGlamovixLipstick}&product=${currentVariantId}`;
   glamovixLipstickIframe.style.display = "block";
-
-  document.body.classList.add("overflow");
 };

@@ -1,5 +1,5 @@
 /* global process */
-import { Outlet, useLoaderData, useRouteError, useNavigation } from "react-router";
+import { Outlet, useLoaderData, useRouteError, useNavigation, Link } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "../shopify.server";
@@ -85,14 +85,14 @@ export default function App() {
         </div>
       )}
 
-      <s-app-nav>
-        <s-link href="/app">Home</s-link>
-        <s-link href="/app/product">Product</s-link>
-        <s-link href="/app/3d-editor">3D Editor</s-link>
-        <s-link href="/app/analytics">Analytics</s-link>
-        <s-link href="/app/billing">Billing</s-link>
-        <s-link href="/app/help">Help & Support</s-link>
-      </s-app-nav>
+      <ui-nav-menu>
+        <Link to="/app" rel="home">Home</Link>
+        <Link to="/app/product">Product</Link>
+        <Link to="/app/3d-editor">3D Editor</Link>
+        <Link to="/app/analytics">Analytics</Link>
+        <Link to="/app/billing">Billing</Link>
+        <Link to="/app/help">Help & Support</Link>
+      </ui-nav-menu>
       <Outlet />
       <GlamovixChatBot />
     </AppProvider>

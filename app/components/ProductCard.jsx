@@ -13,12 +13,12 @@ export default function ProductCard({
   disabled = false,
 }) {
   const lipstickTypes = [
-    "Matte",
+    "Velvet Matte",
     "Sheer",
-    "Glossy",
-    "Satin",
+    "High Gloss",
+    "Soft Satin",
     "Cream",
-    "Shimmer",
+    "Luminous Shimmer",
     "Metallic",
   ];
 
@@ -144,47 +144,49 @@ export default function ProductCard({
 
           {/* BOTTOM: Configuration Fields */}
           <s-stack gap="400">
-            {/* Color Picker */}
+            {/* Color Picker Swatch */}
             <div>
               <s-text
                 variant="bodySm"
                 tone="subdued"
                 as="label"
-                style={{ fontSize: "11px", color: "#6d7175", display: "block" }}
+                style={{ fontSize: "11px", color: "var(--gx-neutral-900)", display: "block", marginBottom: "8px" }}
               >
-                Color
+                Color Swatch
               </s-text>
-              <div
-                style={{
-                  marginTop: "6px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  border: "1px solid #8a8a8a",
-                  borderRadius: "8px",
-                  padding: "4px 12px 4px 4px",
-                  height: "36px",
-                  boxSizing: "border-box",
-                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
-                  opacity: disabled ? 0.7 : 1,
-                }}
-              >
-                <input
-                  type="color"
-                  value={product.color}
-                  disabled={disabled}
-                  onChange={(e) =>
-                    onAttributeChange(product.id, "color", e.target.value)
-                  }
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
                   style={{
-                    border: "none",
-                    width: "40px",
-                    height: "26px",
+                    position: "relative",
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    backgroundColor: product.color,
+                    border: "2px solid var(--gx-surface-light)",
+                    boxShadow: "0 0 0 2px var(--gx-noir)",
+                    transform: "scale(1.08)",
+                    transition: "transform 0.2s ease",
                     cursor: disabled ? "not-allowed" : "pointer",
-                    backgroundColor: "transparent",
-                    padding: "0",
+                    opacity: disabled ? 0.7 : 1,
                   }}
-                />
+                >
+                  <input
+                    type="color"
+                    value={product.color}
+                    disabled={disabled}
+                    onChange={(e) =>
+                      onAttributeChange(product.id, "color", e.target.value)
+                    }
+                    style={{
+                      opacity: 0,
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      cursor: disabled ? "not-allowed" : "pointer",
+                    }}
+                  />
+                </div>
                 <input
                   type="text"
                   value={product.color}
@@ -193,91 +195,116 @@ export default function ProductCard({
                     onAttributeChange(product.id, "color", e.target.value)
                   }
                   style={{
-                    border: "none",
-                    width: "70px",
-                    height: "100%",
+                    border: "1px solid var(--gx-neutral-200)",
+                    borderRadius: "8px",
+                    width: "80px",
+                    height: "36px",
                     fontSize: "13px",
                     fontFamily: "monospace",
                     outline: "none",
-                    color: "#4a4a4a",
-                    backgroundColor: "transparent",
-                    padding: "0",
-                    textAlign: "right",
+                    color: "var(--gx-neutral-900)",
+                    backgroundColor: disabled ? "var(--gx-surface-raised-light)" : "var(--gx-surface-light)",
+                    padding: "0 8px",
+                    textAlign: "center",
                   }}
                 />
               </div>
             </div>
 
-            {/* Intensity Input */}
-            <div>
-              <s-text
-                variant="bodySm"
-                tone="subdued"
-                as="label"
-                style={{ fontSize: "11px", color: "#6d7175", display: "block" }}
-              >
-                Intensity (1-10)
-              </s-text>
-              <input
-                type="number"
-                step="0.1"
-                min="1"
-                max="10"
-                value={product.intensity}
-                disabled={disabled}
-                onChange={(e) =>
-                  onAttributeChange(product.id, "intensity", e.target.value)
-                }
-                style={{
-                  marginTop: "6px",
-                  width: "100%",
-                  height: "36px",
-                  padding: "8px",
-                  border: "1px solid #8a8a8a",
-                  borderRadius: "8px",
-                  fontSize: "13px",
-                  color: "#4a4a4a",
-                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
+            {/* PROGRESSIVE DISCLOSURE: Advanced Tuning */}
+            <div style={{ marginTop: "12px", borderTop: "1px solid var(--gx-neutral-200)", paddingTop: "12px" }}>
+              <details>
+                <summary
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "600",
+                    color: "var(--gx-gold-600)",
+                    cursor: "pointer",
+                    listStyle: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px"
+                  }}
+                >
+                  <span style={{flex: 1}}>Advanced Shader Tuning</span>
+                  <svg viewBox="0 0 20 20" style={{ width: "14px", height: "14px", fill: "currentColor" }}>
+                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                  </svg>
+                </summary>
+                <div style={{ paddingTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {/* Intensity Input */}
+                  <div>
+                    <s-text
+                      variant="bodySm"
+                      tone="subdued"
+                      as="label"
+                      style={{ fontSize: "11px", color: "var(--gx-neutral-600)", display: "block" }}
+                    >
+                      Intensity (1-10)
+                    </s-text>
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="1"
+                      max="10"
+                      value={product.intensity}
+                      disabled={disabled}
+                      onChange={(e) =>
+                        onAttributeChange(product.id, "intensity", e.target.value)
+                      }
+                      style={{
+                        marginTop: "6px",
+                        width: "100%",
+                        height: "36px",
+                        padding: "8px",
+                        border: "1px solid var(--gx-neutral-300)",
+                        borderRadius: "8px",
+                        fontSize: "13px",
+                        color: "var(--gx-neutral-900)",
+                        backgroundColor: disabled ? "var(--gx-surface-raised-light)" : "var(--gx-surface-light)",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
 
-            {/* Lipstick Type Dropdown */}
-            <div>
-              <s-text
-                variant="bodySm"
-                tone="subdued"
-                as="label"
-                style={{ fontSize: "11px", color: "#6d7175", display: "block" }}
-              >
-                Type
-              </s-text>
-              <select
-                value={product.lipstick_type}
-                disabled={disabled}
-                onChange={(e) =>
-                  onAttributeChange(product.id, "lipstick_type", e.target.value)
-                }
-                style={{
-                  marginTop: "6px",
-                  width: "100%",
-                  height: "36px",
-                  padding: "0 8px",
-                  border: "1px solid #8a8a8a",
-                  borderRadius: "8px",
-                  fontSize: "13px",
-                  color: "#4a4a4a",
-                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
-                  boxSizing: "border-box",
-                }}
-              >
-                {lipstickTypes.map((type) => (
-                  <option key={type} value={type.toLowerCase()}>
-                    {type}
-                  </option>
-                ))}
-              </select>
+                  {/* Lipstick Type Select */}
+                  <div>
+                    <s-text
+                      variant="bodySm"
+                      tone="subdued"
+                      as="label"
+                      style={{ fontSize: "11px", color: "var(--gx-neutral-900)", display: "block", marginBottom: "6px" }}
+                    >
+                      Finish
+                    </s-text>
+                    <select
+                      value={product.lipstick_type}
+                      disabled={disabled}
+                      onChange={(e) =>
+                        onAttributeChange(product.id, "lipstick_type", e.target.value)
+                      }
+                      style={{
+                        width: "100%",
+                        height: "44px",
+                        padding: "0 12px",
+                        border: "1px solid var(--gx-neutral-200)",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        color: "var(--gx-neutral-900)",
+                        backgroundColor: disabled ? "var(--gx-surface-raised-light)" : "var(--gx-surface-light)",
+                        boxSizing: "border-box",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {lipstickTypes.map((type) => (
+                        <option key={type} value={type.toLowerCase()}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </details>
             </div>
           </s-stack>
 
@@ -330,29 +357,24 @@ export default function ProductCard({
                 style={{ minWidth: "120px" }}
               >
                 {loading ? (
-                  <svg
-                    className="spin"
-                    viewBox="0 0 20 20"
-                    style={{ width: "16px", height: "16px" }}
-                  >
-                    <style>
-                      {`
-                        .spin { animation: rotate 2s linear infinite; }
-                        @keyframes rotate {
-                          100% { transform: rotate(360deg); }
-                        }
-                      `}
-                    </style>
-                    <path
-                      d="M10 2c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm0 2c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z"
-                      fill="currentColor"
-                      opacity="0.2"
-                    />
-                    <path
-                      d="M10 2c4.418 0 8 3.582 8 8h-2c0-3.314-2.686-6-6-6V2z"
-                      fill="currentColor"
-                    />
-                  </svg>
+                  <div style={{ display: "flex", gap: "6px", alignItems: "center", justifyContent: "center" }}>
+                    <style>{`
+                      @keyframes pulseOpacity {
+                        0%, 100% { opacity: 0.2; transform: scale(0.8); }
+                        50% { opacity: 1; transform: scale(1); }
+                      }
+                      .loading-dot {
+                        width: 6px;
+                        height: 6px;
+                        background-color: currentColor;
+                        border-radius: 50%;
+                        animation: pulseOpacity 1.2s ease-in-out infinite;
+                      }
+                    `}</style>
+                    <div className="loading-dot" style={{ animationDelay: "0ms" }} />
+                    <div className="loading-dot" style={{ animationDelay: "200ms" }} />
+                    <div className="loading-dot" style={{ animationDelay: "400ms" }} />
+                  </div>
                 ) : (
                   "Save"
                 )}

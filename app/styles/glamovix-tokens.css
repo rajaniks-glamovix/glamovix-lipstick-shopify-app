@@ -1,0 +1,30 @@
+:root {
+  /* Canvas & Surfaces */
+  --gx-canvas-light: #FBF9F7;
+  --gx-surface-light: #FFFFFF;
+  --gx-surface-raised-light: #F4EFEB;
+  --gx-glass-light: rgba(255, 255, 255, 0.88);
+  
+  --gx-canvas-dark: #0E0F12;
+  --gx-surface-dark: #16181D;
+  --gx-surface-raised-dark: #1F2229;
+  --gx-glass-dark: rgba(14, 15, 18, 0.85);
+
+  /* Brand Accents */
+  --gx-gold-50:  #FAF5EE;
+  --gx-gold-100: #F3E7D3;
+  --gx-gold-300: #D8B281;
+  --gx-gold-400: #CC9A5E;
+  --gx-gold-500: #BF8240; 
+  --gx-gold-600: #A56B30;
+
+  --gx-noir: #181516; 
+  --gx-rose-accent: #E2847A;
+
+  /* Neutrals */
+  --gx-neutral-100: #F0ECE9;
+  --gx-neutral-200: #E2DDD9;
+  --gx-neutral-400: #AFA6A0;
+  --gx-neutral-600: #716762;
+  --gx-neutral-900: #221E1C;
+}

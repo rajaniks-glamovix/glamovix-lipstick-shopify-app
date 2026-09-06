@@ -10,6 +10,7 @@ export default function ProductCard({
   iframeUrl,
   loading,
   companyName,
+  disabled = false,
 }) {
   const lipstickTypes = [
     "Matte",
@@ -19,7 +20,6 @@ export default function ProductCard({
     "Cream",
     "Shimmer",
     "Metallic",
-
   ];
 
   const isChanged =
@@ -28,12 +28,14 @@ export default function ProductCard({
     String(product.intensity) !== String(originalProduct.intensity) ||
     product.lipstick_type !== originalProduct.lipstick_type;
 
-
   const buildPreviewUrl = (isPhotoMode = false) => {
     if (!iframeUrl) {
       console.error("Preview URL is not defined in .env");
       return null;
     }
+
+    const isMatte = (product.lipstick_type || "matte").toLowerCase() === "matte";
+    const defaultShimmer = isMatte ? "0.0" : "0.8";
 
     // Build the URL with parameters
     const params = new URLSearchParams({
@@ -50,7 +52,7 @@ export default function ProductCard({
       saturationMult: String(product.saturationMult ?? "1"),
       opacityMult: String(product.opacityMult ?? "1"),
       blurMult: String(product.blurMult ?? "0.7"),
-      shimmerIntensity: String(product.shimmerIntensity ?? "0.8"),
+      shimmerIntensity: String(product.shimmerIntensity ?? defaultShimmer),
       slider: "true",
     });
 
@@ -62,16 +64,18 @@ export default function ProductCard({
   };
 
   const handlePhotoPreview = () => {
+    if (disabled) return;
     const fullUrl = buildPreviewUrl(true);
     if (fullUrl) {
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      window.open(fullUrl, "_blank");
     }
   };
 
   const handleLivePreview = () => {
+    if (disabled) return;
     const fullUrl = buildPreviewUrl(false);
     if (fullUrl) {
-      window.open(fullUrl, "_blank", "noopener,noreferrer");
+      window.open(fullUrl, "_blank");
     }
   };
 
@@ -91,11 +95,12 @@ export default function ProductCard({
             <input
               type="checkbox"
               checked={isSelected}
+              disabled={disabled}
               onChange={() => onToggleSelect(product.id)}
               style={{
                 width: "18px",
                 height: "18px",
-                cursor: "pointer",
+                cursor: disabled ? "not-allowed" : "pointer",
                 marginTop: "4px",
                 flexShrink: 0,
               }}
@@ -104,9 +109,6 @@ export default function ProductCard({
               <s-heading variant="headingMd" as="h3" truncate>
                 {product.title}
               </s-heading>
-              {/* <s-text tone="subdued" variant="bodySm">
-                {product.price}
-              </s-text> */}
             </div>
           </div>
 
@@ -163,12 +165,14 @@ export default function ProductCard({
                   padding: "4px 12px 4px 4px",
                   height: "36px",
                   boxSizing: "border-box",
-                  backgroundColor: "#fff",
+                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
+                  opacity: disabled ? 0.7 : 1,
                 }}
               >
                 <input
                   type="color"
                   value={product.color}
+                  disabled={disabled}
                   onChange={(e) =>
                     onAttributeChange(product.id, "color", e.target.value)
                   }
@@ -176,7 +180,7 @@ export default function ProductCard({
                     border: "none",
                     width: "40px",
                     height: "26px",
-                    cursor: "pointer",
+                    cursor: disabled ? "not-allowed" : "pointer",
                     backgroundColor: "transparent",
                     padding: "0",
                   }}
@@ -184,6 +188,7 @@ export default function ProductCard({
                 <input
                   type="text"
                   value={product.color}
+                  disabled={disabled}
                   onChange={(e) =>
                     onAttributeChange(product.id, "color", e.target.value)
                   }
@@ -219,6 +224,7 @@ export default function ProductCard({
                 min="1"
                 max="10"
                 value={product.intensity}
+                disabled={disabled}
                 onChange={(e) =>
                   onAttributeChange(product.id, "intensity", e.target.value)
                 }
@@ -231,6 +237,7 @@ export default function ProductCard({
                   borderRadius: "8px",
                   fontSize: "13px",
                   color: "#4a4a4a",
+                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
                   boxSizing: "border-box",
                 }}
               />
@@ -248,6 +255,7 @@ export default function ProductCard({
               </s-text>
               <select
                 value={product.lipstick_type}
+                disabled={disabled}
                 onChange={(e) =>
                   onAttributeChange(product.id, "lipstick_type", e.target.value)
                 }
@@ -260,7 +268,7 @@ export default function ProductCard({
                   borderRadius: "8px",
                   fontSize: "13px",
                   color: "#4a4a4a",
-                  backgroundColor: "#fff",
+                  backgroundColor: disabled ? "#f4f4f5" : "#fff",
                   boxSizing: "border-box",
                 }}
               >
@@ -294,6 +302,7 @@ export default function ProductCard({
               <s-button
                 variant="secondary"
                 onClick={handlePhotoPreview}
+                disabled={disabled}
                 title="Match and preview lipstick shade on a photo"
               >
                 Photo Preview
@@ -301,6 +310,7 @@ export default function ProductCard({
               <s-button
                 variant="secondary"
                 onClick={handleLivePreview}
+                disabled={disabled}
                 title="Match and preview lipstick shade on live camera"
               >
                 Live Preview
@@ -316,7 +326,7 @@ export default function ProductCard({
               <s-button
                 variant="primary"
                 onClick={() => onSave(product)}
-                disabled={!isChanged || loading}
+                disabled={!isChanged || loading || disabled}
                 style={{ minWidth: "120px" }}
               >
                 {loading ? (

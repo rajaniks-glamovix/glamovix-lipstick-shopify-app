@@ -99,28 +99,61 @@ export const action = async ({ request }) => {
     const body = await request.json();
 
 
-    const { shop, productName, color, intensity, type, specularIntensity, specularPower, glossBoost, saturationMult, opacityMult, blurMult, shimmerIntensity } = body;
+    const {
+      shop,
+      productName,
+      productId,
+      id,
+      product_id,
+      color,
+      intensity,
+      type,
+      lipstick_type,
+      specularIntensity,
+      specularPower,
+      glossBoost,
+      saturationMult,
+      opacityMult,
+      blurMult,
+      shimmerIntensity,
+    } = body;
+
+    const lookupTitle = productName || body.title;
+    const lookupId = productId || id || product_id;
 
     // Validate required fields
-    if (!shop || !productName) {
+    if (!shop || (!lookupTitle && !lookupId)) {
       return jsonResponse(
         400,
         {
           success: false,
-          error: "Missing required fields: shop and productName are mandatory",
+          error: "Missing required fields: shop and productName/productId are mandatory",
         },
         request,
       );
     }
 
+    const effectiveType = type || lipstick_type;
+
     // At least one attribute must be provided
-    if (!color && !intensity && !type) {
+    if (
+      !color &&
+      intensity === undefined &&
+      !effectiveType &&
+      specularIntensity === undefined &&
+      specularPower === undefined &&
+      glossBoost === undefined &&
+      saturationMult === undefined &&
+      opacityMult === undefined &&
+      blurMult === undefined &&
+      shimmerIntensity === undefined
+    ) {
       return jsonResponse(
         400,
         {
           success: false,
           error:
-            "At least one attribute to update is required: color, intensity, or type",
+            "At least one attribute to update is required: color, intensity, type, or shader properties",
         },
         request,
       );
@@ -142,17 +175,23 @@ export const action = async ({ request }) => {
       );
     }
 
-    // Find the product by title (case-insensitive)
-    const productIndex = data.products.findIndex(
-      (p) => p.title.toLowerCase() === productName.toLowerCase(),
-    );
+    // Find the product by ID or title (case-insensitive)
+    const productIndex = data.products.findIndex((p) => {
+      if (lookupId && (p.product_id === lookupId || p.parent_product_id === lookupId)) {
+        return true;
+      }
+      if (lookupTitle && p.title && p.title.toLowerCase() === lookupTitle.toLowerCase()) {
+        return true;
+      }
+      return false;
+    });
 
     if (productIndex === -1) {
       return jsonResponse(
         404,
         {
           success: false,
-          error: `Product "${productName}" not found`,
+          error: `Product "${lookupTitle || lookupId}" not found`,
           availableProducts: data.products.map((p) => p.title),
         },
         request,
@@ -162,7 +201,12 @@ export const action = async ({ request }) => {
     // Update only the provided attributes
     if (color) data.products[productIndex].color = color;
     if (intensity) data.products[productIndex].intensity = String(intensity);
-    if (type) data.products[productIndex].lipstick_type = type;
+    if (effectiveType) {
+      data.products[productIndex].lipstick_type = effectiveType;
+      if (effectiveType.toLowerCase() === "matte" && shimmerIntensity === undefined) {
+        data.products[productIndex].shimmerIntensity = "0.0";
+      }
+    }
     // new data
     if (specularIntensity !== undefined) data.products[productIndex].specularIntensity = String(specularIntensity);
     if (specularPower !== undefined) data.products[productIndex].specularPower = String(specularPower);
@@ -172,16 +216,17 @@ export const action = async ({ request }) => {
     if (blurMult !== undefined) data.products[productIndex].blurMult = String(blurMult);
     if (shimmerIntensity !== undefined) data.products[productIndex].shimmerIntensity = String(shimmerIntensity);
 
-
-
     // Write back to S3
     await writeToJson(BUCKET_NAME, key, data);
+
+    const updatedProduct = data.products[productIndex];
 
     return jsonResponse(
       200,
       {
         success: true,
-        message: `Product "${productName}" updated successfully`,
+        message: `Product "${updatedProduct.title || lookupTitle || lookupId}" updated successfully`,
+        product: updatedProduct,
       },
       request,
     );

@@ -9,6 +9,7 @@ import { useAppBridge } from "@shopify/app-bridge-react";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../shopify.server";
 import AnalyticsCard from "../components/AnalyticsCard";
+import OnboardingGuide from "../components/OnboardingGuide";
 import analyticsData from "../data/analyticsData.json";
 import {
   AreaChart,
@@ -236,7 +237,7 @@ export default function Index() {
         </div>
 
         <div style={{ display: "flex", gap: "16px", width: "100%", flexWrap: "wrap" }}>
-          <div style={{ flex: "1 1 250px" }}>
+          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
             <AnalyticsCard
               value={stats?.tryon_click?.count || 0}
               title={"No of tryons"}
@@ -250,7 +251,7 @@ export default function Index() {
               />
             </AnalyticsCard>
           </div>
-          <div style={{ flex: "1 1 250px" }}>
+          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
             <AnalyticsCard
               value={stats?.tryon_click?.users || 0}
               title={"No of users"}
@@ -264,7 +265,7 @@ export default function Index() {
               />
             </AnalyticsCard>
           </div>
-          <div style={{ flex: "1 1 250px" }}>
+          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
             <AnalyticsCard
               value={stats?.add_to_cart?.count || 0}
               title={"No of add to cart"}
@@ -280,265 +281,15 @@ export default function Index() {
           </div>
         </div>
 
-        <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "12px",
-            padding: "24px",
-            border: "1px solid #e1e1e1",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-            fontFamily:
-              "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          }}
-        >
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-              }}
-            >
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: "4px" }}
-              >
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    margin: 0,
-                    color: "#202223",
-                  }}
-                >
-                  Complete your setup
-                </h2>
-                <p style={{ fontSize: "13px", color: "#6d7175", margin: 0 }}>
-                  Get your virtual try-on experience ready for your customers.
-                </p>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <span
-                  style={{
-                    fontSize: "13px",
-                    fontWeight: "700",
-                    color: completedCount === 2 ? "#1a7346" : "#202223",
-                  }}
-                >
-                  {completedCount}/2 completed
-                </span>
-              </div>
-            </div>
-
-            <div style={{ marginTop: "4px", marginBottom: "8px" }}>
-              <div
-                style={{
-                  width: "100%",
-                  height: "8px",
-                  backgroundColor: "#f1f1f1",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${(completedCount / 2) * 100}%`,
-                    height: "100%",
-                    backgroundColor:
-                      completedCount === 2 ? "#1a7346" : "#005bd3",
-                    transition: "width 0.4s ease-out",
-                  }}
-                />
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "20px",
-                marginTop: "12px",
-              }}
-            >
-              {/* Product Selection Step */}
-              <div
-                style={{
-                  padding: "16px",
-                  borderRadius: "10px",
-                  border: `1px solid ${productCompleted ? "#e3f1df" : "#f1f1f1"}`,
-                  backgroundColor: productCompleted ? "#f8fbf7" : "#fafafa",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: "8px",
-                        backgroundColor: productCompleted
-                          ? "#e3f1df"
-                          : "#f1f1f1",
-                        borderRadius: "8px",
-                        color: productCompleted ? "#1a7346" : "#5c5f62",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {icons.product}
-                    </div>
-                    {productCompleted && (
-                      <div style={{ color: "#1a7346", display: "flex" }}>
-                        {icons.check}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        margin: 0,
-                        color: "#202223",
-                      }}
-                    >
-                      Product selection
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "#6d7175",
-                        margin: 0,
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      Add and manage products within the lipstick virtual try-on
-                      dashboard.
-                    </p>
-                  </div>
-                </div>
-                <div style={{ marginTop: "16px" }}>
-                  <s-button
-                    variant={productCompleted ? "secondary" : "primary"}
-                    onClick={goToProducts}
-                    loading={navigatingProduct ? "true" : undefined}
-                  >
-                    {productCompleted ? "Manage Products" : "Go to Products"}
-                  </s-button>
-                </div>
-              </div>
-
-              {/* Theme Extension Step */}
-              <div
-                style={{
-                  padding: "16px",
-                  borderRadius: "10px",
-                  border: `1px solid ${themeCompleted ? "#e3f1df" : "#f1f1f1"}`,
-                  backgroundColor: themeCompleted ? "#f8fbf7" : "#fafafa",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: "8px",
-                        backgroundColor: themeCompleted ? "#e3f1df" : "#f1f1f1",
-                        borderRadius: "8px",
-                        color: themeCompleted ? "#1a7346" : "#5c5f62",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {icons.store}
-                    </div>
-                    {themeCompleted && (
-                      <div style={{ color: "#1a7346", display: "flex" }}>
-                        {icons.check}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "600",
-                        margin: 0,
-                        color: "#202223",
-                      }}
-                    >
-                      Theme extension
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "#6d7175",
-                        margin: 0,
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      Integrate the virtual try-on button into your storefront
-                      theme.
-                    </p>
-                  </div>
-                </div>
-                <div style={{ marginTop: "16px" }}>
-                  <s-button
-                    variant={themeCompleted ? "secondary" : "primary"}
-                    onClick={goToThemeEditor}
-                    loading={navigatingTheme ? "true" : undefined}
-                  >
-                    {themeCompleted ? "Customize Theme" : "Go to Theme"}
-                  </s-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <OnboardingGuide
+          completedCount={completedCount}
+          themeCompleted={themeCompleted}
+          productCompleted={productCompleted}
+          onGoToTheme={goToThemeEditor}
+          onGoToProducts={goToProducts}
+          navigatingTheme={navigatingTheme}
+          navigatingProduct={navigatingProduct}
+        />
       </s-stack>
     </s-page>
   );

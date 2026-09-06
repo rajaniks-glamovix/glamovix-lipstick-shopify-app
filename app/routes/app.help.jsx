@@ -359,6 +359,44 @@ export default function HelpPage() {
             Have a question or ran into an issue? Send us a message and we'll
             get back to you shortly.
           </p>
+
+          <div
+            style={{
+              marginTop: "20px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "10px 18px",
+              backgroundColor: "#ffffff",
+              borderRadius: "24px",
+              border: "1px solid #e1e3e5",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+            }}
+          >
+            <div
+              style={{
+                width: "24px",
+                height: "24px",
+                borderRadius: "6px",
+                backgroundColor: "#ffffff",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "hidden",
+                border: "1px solid #e1e3e5",
+                padding: "2px",
+              }}
+            >
+              <img
+                src="/logo.png"
+                alt="Glamovix"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+            </div>
+            <span style={{ fontSize: "13px", color: "#303030" }}>
+              Need instant help? Click <strong>Glamovix AI</strong> at the bottom right for immediate guidance!
+            </span>
+          </div>
         </div>
 
         {/* Form Card */}

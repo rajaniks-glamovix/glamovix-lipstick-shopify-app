@@ -1,8 +1,10 @@
-import { Outlet, useLoaderData, useRouteError } from "react-router";
+/* global process */
+import { Outlet, useLoaderData, useRouteError, useNavigation } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "../shopify.server";
 import * as billingConfigs from "../billing.constants";
+import GlamovixChatBot from "../components/GlamovixChatBot";
 
 export const loader = async ({ request }) => {
   const { billing, session } = await authenticate.admin(request);
@@ -44,9 +46,45 @@ export const loader = async ({ request }) => {
 
 export default function App() {
   const { apiKey } = useLoaderData();
+  const navigation = useNavigation();
+  const isPageLoading = navigation.state === "loading";
 
   return (
     <AppProvider embedded apiKey={apiKey}>
+      <style>{`
+        @keyframes glamovixProgressBar {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(0%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
+
+      {isPageLoading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "3px",
+            zIndex: 999999,
+            overflow: "hidden",
+            backgroundColor: "rgba(0, 0, 0, 0.08)",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background:
+                "linear-gradient(90deg, #1a1a1a, #a855f7, #008060, #1a1a1a)",
+              animation:
+                "glamovixProgressBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+            }}
+          />
+        </div>
+      )}
+
       <s-app-nav>
         <s-link href="/app">Home</s-link>
         <s-link href="/app/product">Product</s-link>
@@ -56,6 +94,7 @@ export default function App() {
         <s-link href="/app/help">Help & Support</s-link>
       </s-app-nav>
       <Outlet />
+      <GlamovixChatBot />
     </AppProvider>
   );
 }

@@ -96,11 +96,11 @@ const ArrowRightIcon = ({ size = 14, color = "#202223" }) => (
 const INITIAL_MESSAGE = {
   id: "welcome-1",
   sender: "assistant",
-  text: `Hello! I'm your **Glamovix Concierge**, your AI assistant for virtual try-on and 3D cosmetics.
+  text: `Hey! ✨ Welcome to **Glamovix AI** — your virtual try-on assistant.
 
-I can help you navigate the app, customize shades, configure the 3D studio, and launch the try-on button on your storefront.
+Whether you want to adjust shades, test 3D models, or launch the Try-On button live on your Shopify store — I'm here to help.
 
-What would you like help with today?`,
+What would you like to work on today?`,
   actions: [
     { type: "navigate", target: "/app/product", label: "Customize Products" },
     { type: "navigate", target: "/app/help", label: "View Setup Guide" },
@@ -110,10 +110,10 @@ What would you like help with today?`,
 
 const SUGGESTED_CHIPS = [
   "How do I add Try-On to my store?",
-  "Take me to Products",
-  "How does AI color detection work?",
-  "Explain subscription plans",
-  "What is the 3D Editor?",
+  "Take me to Products ✨",
+  "How does AI shade detection work?",
+  "Check pricing & plans",
+  "Show me the 3D Studio",
 ];
 
 /**
@@ -329,7 +329,9 @@ export default function GlamovixChatBot() {
   // Restore history from sessionStorage on mount
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem("glamovix_concierge_history");
+      const saved =
+        sessionStorage.getItem("glamovix_chat_history") ||
+        sessionStorage.getItem("glamovix_concierge_history");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -350,7 +352,7 @@ export default function GlamovixChatBot() {
     try {
       if (messages.length > 0) {
         sessionStorage.setItem(
-          "glamovix_concierge_history",
+          "glamovix_chat_history",
           JSON.stringify(messages),
         );
       }
@@ -457,6 +459,7 @@ export default function GlamovixChatBot() {
   const handleClearChat = () => {
     setMessages([INITIAL_MESSAGE]);
     try {
+      sessionStorage.removeItem("glamovix_chat_history");
       sessionStorage.removeItem("glamovix_concierge_history");
     } catch {
       // Ignore
@@ -519,7 +522,7 @@ export default function GlamovixChatBot() {
               }}
             />
             <span style={{ flex: 1, lineHeight: "1.35" }}>
-              Need help? Ask <strong>Glamovix AI</strong> anytime!
+              Need help? Ask <strong>Glamovix AI</strong> anytime! ✨
             </span>
             <button
               onClick={() => setShowTooltip(false)}
@@ -616,7 +619,7 @@ export default function GlamovixChatBot() {
               color: "#ffffff",
             }}
           >
-            {isOpen ? "Close Assistant" : "Glamovix AI"}
+            {isOpen ? "Close AI" : "Glamovix AI"}
           </span>
         </button>
       </div>
@@ -738,7 +741,7 @@ export default function GlamovixChatBot() {
                     gap: "6px",
                   }}
                 >
-                  Glamovix Concierge
+                  Glamovix AI
                   <span
                     style={{
                       width: "7px",
@@ -757,7 +760,7 @@ export default function GlamovixChatBot() {
                     letterSpacing: "0.2px",
                   }}
                 >
-                  Powered by Gemini Beauty AI
+                  Virtual Try-On Assistant
                 </div>
               </div>
             </div>
@@ -916,7 +919,7 @@ export default function GlamovixChatBot() {
                   style={{ width: "16px", height: "16px", objectFit: "contain" }}
                 />
                 <span style={{ fontSize: "12.5px", color: "#6d7175" }}>
-                  Glamovix AI is thinking...
+                  Glamovix AI is on it... ✨
                 </span>
               </div>
             )}
@@ -1005,7 +1008,7 @@ export default function GlamovixChatBot() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask anything about Glamovix..."
+              placeholder="Ask anything or tell me where to go... ✨"
               disabled={isLoading}
               style={{
                 flex: 1,

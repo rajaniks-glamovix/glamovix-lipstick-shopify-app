@@ -5,7 +5,7 @@ Welcome to the Glamovix production-grade UI/UX refactoring suite. These tasks ar
 ## Task Roster
 
 - [x] `01-design-tokens-and-color-refactor.md`
-- [ ] `02-storefront-tryon-button-pdp.md`
+- [x] `02-storefront-tryon-button-pdp.md`
 - [ ] `03-camera-and-webar-modal-ux.md`
 - [ ] `04-shade-picker-finishes-undertones.md`
 - [ ] `05-seamless-cart-handoff-and-states.md`

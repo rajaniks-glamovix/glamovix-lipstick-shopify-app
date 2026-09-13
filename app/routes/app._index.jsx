@@ -206,81 +206,6 @@ export default function Index() {
   return (
     <s-page heading="Home">
       <s-stack rowGap="large">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "8px",
-          }}
-        >
-          <select
-            value={timeframe}
-            onChange={handleTimeframeChange}
-            style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              backgroundColor: "white",
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-              outline: "none",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-            }}
-          >
-            {timeframeOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div style={{ display: "flex", gap: "16px", width: "100%", flexWrap: "wrap" }}>
-          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
-            <AnalyticsCard
-              value={stats?.tryon_click?.count || 0}
-              title={"No of tryons"}
-              icon={icons.lipstick}
-              trend={trends.tryons}
-            >
-              <MiniChart
-                data={stats?.tryon_click?.series || []}
-                dataKey="count"
-                color="#005bd3"
-              />
-            </AnalyticsCard>
-          </div>
-          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
-            <AnalyticsCard
-              value={stats?.tryon_click?.users || 0}
-              title={"No of users"}
-              icon={icons.users}
-              trend={trends.users}
-            >
-              <MiniChart
-                data={stats?.tryon_click?.series || []}
-                dataKey="users"
-                color="#008060"
-              />
-            </AnalyticsCard>
-          </div>
-          <div style={{ flex: "1 1 250px", minWidth: 0 }}>
-            <AnalyticsCard
-              value={stats?.add_to_cart?.count || 0}
-              title={"No of add to cart"}
-              icon={icons.cart}
-              trend={trends.cart}
-            >
-              <MiniChart
-                data={stats?.add_to_cart?.series || []}
-                dataKey="count"
-                color="#bf0711"
-              />
-            </AnalyticsCard>
-          </div>
-        </div>
-
         <OnboardingGuide
           completedCount={completedCount}
           themeCompleted={themeCompleted}
@@ -290,6 +215,82 @@ export default function Index() {
           navigatingTheme={navigatingTheme}
           navigatingProduct={navigatingProduct}
         />
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <select
+              value={timeframe}
+              onChange={handleTimeframeChange}
+              style={{
+                padding: "8px 12px",
+                borderRadius: "8px",
+                border: "1px solid #d1d5db",
+                backgroundColor: "white",
+                fontSize: "14px",
+                fontWeight: "500",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+              }}
+            >
+              {timeframeOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ display: "flex", gap: "16px", width: "100%", flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 250px", minWidth: 0 }}>
+              <AnalyticsCard
+                value={stats?.tryon_click?.count || 0}
+                title={"No of tryons"}
+                icon={icons.lipstick}
+                trend={trends.tryons}
+              >
+                <MiniChart
+                  data={stats?.tryon_click?.series || []}
+                  dataKey="count"
+                  color="#005bd3"
+                />
+              </AnalyticsCard>
+            </div>
+            <div style={{ flex: "1 1 250px", minWidth: 0 }}>
+              <AnalyticsCard
+                value={stats?.tryon_click?.users || 0}
+                title={"No of users"}
+                icon={icons.users}
+                trend={trends.users}
+              >
+                <MiniChart
+                  data={stats?.tryon_click?.series || []}
+                  dataKey="users"
+                  color="#008060"
+                />
+              </AnalyticsCard>
+            </div>
+            <div style={{ flex: "1 1 250px", minWidth: 0 }}>
+              <AnalyticsCard
+                value={stats?.add_to_cart?.count || 0}
+                title={"No of add to cart"}
+                icon={icons.cart}
+                trend={trends.cart}
+              >
+                <MiniChart
+                  data={stats?.add_to_cart?.series || []}
+                  dataKey="count"
+                  color="#bf0711"
+                />
+              </AnalyticsCard>
+            </div>
+          </div>
+        </div>
       </s-stack>
     </s-page>
   );

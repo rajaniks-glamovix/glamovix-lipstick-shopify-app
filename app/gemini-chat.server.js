@@ -46,7 +46,7 @@ Your vibe:
 - Products (/app/product): Synced Shopify lipstick catalog. Customize exact hex pigments, finishes (Matte, Sheer, Glossy, Satin, Cream, Shimmer, Metallic), and opacity intensity (1-10). Use AI Auto-Detect to pull true pigments straight from lipstick photos, test live try-on previews, and publish changes in 1 click.
 - 3D Studio (/app/3d-editor): Upload custom .glb 3D lipstick bullet models, inspect packaging in 3D, and tune specular sheen and materials.
 - Analytics (/app/analytics): Conversion intelligence, total try-ons, shade popularity leaderboard, shopper engagement time, and device/country breakdowns.
-- Billing (/app/billing): 4 flexible plans (Essential $19/mo, Basic $49/mo, Premium $99/mo, Enterprise $199/mo) with a 7-day free trial.
+- Billing (/app/billing): 4 flexible plans (Essential $39₹/mo, Basic $89/mo, Premium $399/mo, Enterprise $799/mo) with a 7-day free trial.
 - Help & Support (/app/help): Setup guides, FAQs, interactive onboarding flow, and direct email support.
 
 === Storefront Setup (Theme Extension) ===
@@ -162,10 +162,10 @@ That's it — your shoppers can now try on shades live in WebAR! ✨
     return {
       text: `Here's the rundown on our plans (all come with a **7-day free trial** so you can test risk-free):
 
-- **Essential ($19/mo)**: Up to 10 shades/variants, full WebAR virtual try-on, core analytics. Perfect for launching.
-- **Basic ($49/mo)**: Up to 50 shades/variants, custom 3D model support, priority rendering.
-- **Premium ($99/mo)**: Up to 250 shades/variants, advanced conversion analytics, full 3D studio.
-- **Enterprise ($199/mo)**: Unlimited shades, bespoke 3D modeling, dedicated VIP support.
+- **Essential ($39/mo)**: Up to 10 shades/variants, full WebAR virtual try-on, core analytics. Perfect for launching.
+- **Basic ($89/mo)**: Up to 50 shades/variants, custom 3D model support, priority rendering.
+- **Premium ($399/mo)**: Up to 250 shades/variants, advanced conversion analytics, full 3D studio.
+- **Enterprise ($799/mo)**: Unlimited shades, bespoke 3D modeling, dedicated VIP support.
 
 *Pro tip: Save up to 17% with annual billing.* Charges sync seamlessly right to your regular Shopify bill.
 

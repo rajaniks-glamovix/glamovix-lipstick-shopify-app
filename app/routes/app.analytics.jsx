@@ -71,7 +71,7 @@ const geoUrl =
 // Modern Donut Chart Component
 const DonutChart = ({
   data,
-  colors = ["#202223", "#8a38ec", "#a855f7", "#8c9196", "#c9cccf"],
+  colors = ["#202223", "#5E4BF8", "#818CF8", "#8c9196", "#c9cccf"],
   height = "240px",
 }) => {
   return (
@@ -352,7 +352,7 @@ const RealWorldMap = ({ data }) => {
               <Marker key={idx} coordinates={coords}>
                 <circle
                   r={size}
-                  fill={isSelected ? "#8a38ec" : "#202223"}
+                  fill={isSelected ? "#5E4BF8" : "#202223"}
                   fillOpacity={0.25}
                 >
                   <animate
@@ -364,7 +364,7 @@ const RealWorldMap = ({ data }) => {
                 </circle>
                 <circle
                   r={size / 2.5}
-                  fill={isSelected ? "#8a38ec" : "#202223"}
+                  fill={isSelected ? "#5E4BF8" : "#202223"}
                 />
               </Marker>
             );
@@ -613,7 +613,7 @@ export default function AnalyticsPage() {
               <div style={{ padding: "16px 0 0" }}>
                 <DonutChart
                   data={technology.browsers}
-                  colors={["#202223", "#8a38ec", "#a855f7", "#8c9196"]}
+                  colors={["#202223", "#5E4BF8", "#818CF8", "#8c9196"]}
                 />
               </div>
             </AnalyticsCard>
@@ -621,7 +621,7 @@ export default function AnalyticsPage() {
               <div style={{ padding: "16px 0 0" }}>
                 <DonutChart
                   data={technology.devices}
-                  colors={["#202223", "#8a38ec", "#c9cccf"]}
+                  colors={["#202223", "#5E4BF8", "#c9cccf"]}
                 />
               </div>
             </AnalyticsCard>

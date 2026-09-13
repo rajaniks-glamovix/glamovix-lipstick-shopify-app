@@ -1,3 +1,4 @@
+/* global process */
 import { useState, useEffect, useRef } from "react";
 import { useFetcher, useLoaderData, useRevalidator } from "react-router";
 import { useAppBridge } from "@shopify/app-bridge-react";
@@ -234,6 +235,8 @@ export default function Index() {
   const [products, setProducts] = useState(initialProducts || []);
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("newest");
   const [savingId, setSavingId] = useState(null);
   const [aiStatus, setAiStatus] = useState(null);
 
@@ -363,11 +366,7 @@ export default function Index() {
     const handleMessage = (event) => {
       if (!event.data) return;
 
-      const isGlamovixEvent =
-        (typeof event.origin === "string" &&
-          (event.origin.includes("glamovix.com") ||
-            event.origin.includes("localhost"))) ||
-        event.data?.type === "update_product" ||
+      const isSaveEvent =
         event.data?.type === "product_updated" ||
         event.data?.type === "apply_changes" ||
         event.data?.action === "apply_changes" ||
@@ -375,7 +374,7 @@ export default function Index() {
         event.data === "apply_changes" ||
         event.data === "product_updated";
 
-      if (isGlamovixEvent) {
+      if (isSaveEvent) {
         // If message contains product payload, update state immediately
         const payload =
           event.data?.product ||
@@ -444,7 +443,7 @@ export default function Index() {
           );
         }
 
-        // Trigger loader revalidation to sync with S3
+        // Trigger loader revalidation to sync with S3 only when changes are explicitly applied/saved
         if (revalidator.state === "idle" && fetcher.state === "idle") {
           revalidator.revalidate();
         }
@@ -700,9 +699,43 @@ export default function Index() {
     shopify.toast.show("Products removed");
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const handleDeleteProduct = (productToDelete) => {
+    if (isAiAnalyzing || fetcher.state !== "idle") return;
+    fetcher.submit(
+      { intent: "delete", titles: JSON.stringify([productToDelete.title]) },
+      { method: "post" },
+    );
+
+    setProducts((prev) => prev.filter((p) => p.id !== productToDelete.id));
+    setSelectedIds((prev) => prev.filter((id) => id !== productToDelete.id));
+    shopify.toast.show(`Removed ${productToDelete.title}`);
+  };
+
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch = product.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesType =
+        typeFilter === "all" ||
+        (product.lipstick_type || "").toLowerCase() ===
+          typeFilter.toLowerCase();
+      return matchesSearch && matchesType;
+    })
+    .sort((a, b) => {
+      if (sortBy === "oldest") {
+        return 0;
+      } else if (sortBy === "name_asc") {
+        return (a.title || "").localeCompare(b.title || "");
+      } else if (sortBy === "name_desc") {
+        return (b.title || "").localeCompare(a.title || "");
+      } else if (sortBy === "intensity_desc") {
+        return (Number(b.intensity) || 0) - (Number(a.intensity) || 0);
+      } else if (sortBy === "intensity_asc") {
+        return (Number(a.intensity) || 0) - (Number(b.intensity) || 0);
+      }
+      return 0;
+    });
 
   return (
     <s-page heading="Products">
@@ -869,42 +902,213 @@ export default function Index() {
           </s-card>
         ) : (
           <div style={{ width: "100%", paddingBottom: "80px" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "10px",
-                height: "36px",
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  padding: "8px 12px",
-                  border: "1px solid #ccc",
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                  width: "250px",
-                  boxSizing: "border-box",
-                }}
-              />
+            <div className="products-filter-bar">
+              {/* Search Bar on Left */}
+              <div className="products-search-wrap">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="17"
+                  height="17"
+                  fill="none"
+                  stroke="#9CA3AF"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{
+                    position: "absolute",
+                    left: "12px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    width: "100%",
+                    height: "38px",
+                    padding: "8px 12px 8px 38px",
+                    border: "1.5px solid #E5E7EB",
+                    borderRadius: "10px",
+                    fontSize: "13.5px",
+                    color: "#111827",
+                    backgroundColor: "#FFFFFF",
+                    outline: "none",
+                    boxSizing: "border-box",
+                    transition: "border-color 0.15s ease",
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = "#635BFF")}
+                  onBlur={(e) => (e.target.style.borderColor = "#E5E7EB")}
+                />
+              </div>
+
+              {/* Filter & Sort Controls on Right */}
+              <div className="products-controls-wrap">
+                {/* Type Filter */}
+                <div className="products-select-box">
+                  <select
+                    value={typeFilter}
+                    onChange={(e) => setTypeFilter(e.target.value)}
+                    style={{
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      width: "100%",
+                      height: "38px",
+                      padding: "8px 32px 8px 14px",
+                      border: "1.5px solid #E5E7EB",
+                      borderRadius: "10px",
+                      fontSize: "13.5px",
+                      fontWeight: "500",
+                      color: "#374151",
+                      backgroundColor: "#FFFFFF",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <option value="all">All Types</option>
+                    <option value="matte">Matte</option>
+                    <option value="glossy">Glossy</option>
+                    <option value="sheer">Sheer</option>
+                    <option value="satin">Satin</option>
+                    <option value="cream">Cream</option>
+                    <option value="shimmer">Shimmer</option>
+                    <option value="metallic">Metallic</option>
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    fill="none"
+                    stroke="#6B7280"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+
+                {/* Sort By */}
+                <div className="products-select-box">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    style={{
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      width: "100%",
+                      height: "38px",
+                      padding: "8px 32px 8px 14px",
+                      border: "1.5px solid #E5E7EB",
+                      borderRadius: "10px",
+                      fontSize: "13.5px",
+                      fontWeight: "500",
+                      color: "#374151",
+                      backgroundColor: "#FFFFFF",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <option value="newest">Sort by: Newest</option>
+                    <option value="oldest">Sort by: Oldest</option>
+                    <option value="name_asc">Sort by: Name (A-Z)</option>
+                    <option value="name_desc">Sort by: Name (Z-A)</option>
+                    <option value="intensity_desc">Sort by: Intensity (High-Low)</option>
+                    <option value="intensity_asc">Sort by: Intensity (Low-High)</option>
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    fill="none"
+                    stroke="#6B7280"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <style>
               {`
+                .products-filter-bar {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 20px;
+                  flex-wrap: wrap;
+                  gap: 12px;
+                }
+                .products-search-wrap {
+                  position: relative;
+                  width: 320px;
+                  max-width: 100%;
+                }
+                .products-controls-wrap {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                }
+                .products-select-box {
+                  position: relative;
+                }
                 .product-grid {
                   display: grid;
                   grid-template-columns: repeat(4, 1fr);
-                  gap: 10px;
+                  gap: 16px;
                   width: 100%;
                 }
-                @media (max-width: 768px) {
+                @media (max-width: 1200px) {
                   .product-grid {
-                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-columns: repeat(3, 1fr);
+                  }
+                }
+                @media (max-width: 860px) {
+                  .products-filter-bar {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 10px;
+                  }
+                  .products-search-wrap {
+                    width: 100%;
+                  }
+                  .products-controls-wrap {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                    width: 100%;
+                  }
+                  .products-select-box {
+                    width: 100%;
+                  }
+                  .product-grid {
+                    grid-template-columns: 1fr;
+                    gap: 14px;
                   }
                 }
               `}
@@ -921,6 +1125,7 @@ export default function Index() {
                   onToggleSelect={handleToggleSelect}
                   onAttributeChange={handleAttributeChange}
                   onSave={handleSave}
+                  onDelete={handleDeleteProduct}
                   iframeUrl={iframeUrl}
                   companyName={companyName}
                 />
@@ -998,7 +1203,7 @@ export default function Index() {
               <div
                 style={{ textAlign: "center", padding: "20px", color: "#666" }}
               >
-                No products found matching "{searchQuery}"
+                No products found matching &quot;{searchQuery}&quot;
               </div>
             )}
           </div>

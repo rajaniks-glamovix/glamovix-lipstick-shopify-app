@@ -37,15 +37,15 @@ Product Title: "${productTitle}"
 Variant / Shade: "${variantTitle}"
 
 Task & Rules:
-1. Identify the exact dominant pigment hex color (#RRGGBB) from the core midtone of the lipstick bullet, applicator, or color swatch.
+1. Identify the exact dominant pigment hex color (#RRGGBB) from the core midtone of the lipstick bullet, applicator, or color swatch. If the lipstick is a clear/transparent gloss, lip oil, or glass finish with no pigment, return "none" for color.
 2. Filter out:
    - Specular glare / white studio flash highlights
    - Deep drop shadows / dark edges
    - Packaging (casing tubes in gold, black, silver)
    - Background studio lighting and skin tones
 3. Capture the exact undertone: distinguish between warm coral/terracotta/peach, neutral classic reds, cool berry/plum/rose, and deep wines/burgundies.
-4. Classify the finish accurately: "matte", "glossy", "sheer", "satin", "cream", "shimmer", "metallic".
-5. Set recommended opacity intensity from 1 to 10 as a string (default "5" for standard opaque, "3" for sheer/tint, "7" to "9" for deep matte).
+4. Classify the finish accurately: "matte", "glossy", "sheer", "satin", "cream", "shimmer", "metallic", "glass".
+5. Set recommended opacity intensity from 1 to 10 as a string (default "5" for standard opaque, "3" for sheer/tint, "7" to "9" for deep matte, "1" to "2" for glass/clear).
 
 Return strictly JSON with keys "color", "lipstick_type", "intensity".`;
 
@@ -123,18 +123,33 @@ Return strictly JSON with keys "color", "lipstick_type", "intensity".`;
 
     if (candidate) {
       const parsed = JSON.parse(candidate);
-      let color = parsed.color?.trim() || "";
-      if (!color.startsWith("#")) color = `#${color}`;
+      let rawColor = parsed.color?.trim() || "";
+      const rawFinish = (parsed.lipstick_type || "").toLowerCase().trim();
+      const isNone =
+        rawColor.toLowerCase().replace(/^#/, "") === "none" ||
+        rawColor.toLowerCase() === "clear" ||
+        rawColor.toLowerCase() === "transparent" ||
+        rawColor.toLowerCase() === "#00000000" ||
+        rawColor.toLowerCase() === "00000000" ||
+        (rawFinish === "glass" && (!rawColor || rawColor.toLowerCase().replace(/^#/, "") === "none"));
 
-      // Validate hex
-      if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
-        color = detectLipstickColor({ title: variantTitle }, { title: productTitle });
+      let color;
+      if (isNone) {
+        color = "none";
+      } else {
+        if (!rawColor.startsWith("#")) rawColor = `#${rawColor}`;
+        // Validate hex (6-digit or 8-digit)
+        if (!/^#[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/.test(rawColor)) {
+          color = detectLipstickColor({ title: variantTitle }, { title: productTitle });
+        } else {
+          color = rawColor.toUpperCase();
+        }
       }
 
       return {
-        color: color.toUpperCase(),
+        color,
         lipstick_type: parsed.lipstick_type || detectLipstickType(`${variantTitle} ${productTitle}`),
-        intensity: parsed.intensity || "5",
+        intensity: parsed.intensity || (rawFinish === "glass" ? "2" : "5"),
         aiDetected: true,
       };
     }
@@ -142,10 +157,11 @@ Return strictly JSON with keys "color", "lipstick_type", "intensity".`;
     throw new Error("No response candidate from Gemini");
   } catch (error) {
     console.error("Gemini detection failed, using fallback:", error.message);
+    const detectedType = detectLipstickType(`${variantTitle} ${productTitle}`);
     return {
       color: detectLipstickColor({ title: variantTitle, selectedOptions: [] }, { title: productTitle }),
-      lipstick_type: detectLipstickType(`${variantTitle} ${productTitle}`),
-      intensity: "5",
+      lipstick_type: detectedType,
+      intensity: detectedType === "glass" ? "2" : "5",
       aiDetected: false,
     };
   }

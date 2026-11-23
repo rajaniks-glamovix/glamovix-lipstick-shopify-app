@@ -12,7 +12,8 @@ import { readJson, writeToJson, BUCKET_NAME, getS3Key } from "../s3.server";
  *   "productName": "Red Lipstick",     // Required: title of the product to update
  *   "color": "#FF0000",               // Optional: new hex color
  *   "intensity": "7",                 // Optional: new intensity value (string)
- *   "type": "glossy"                  // Optional: lipstick type (matte, glossy, satin, etc.)
+ *   "type": "glass",                  // Optional: lipstick type (matte, glossy, glass, satin, etc.)
+ *   "productType": "lip_linear"       // Optional: product type ("lipstick" or "lip_linear")
  * }
  *
  * Response:
@@ -109,6 +110,9 @@ export const action = async ({ request }) => {
       intensity,
       type,
       lipstick_type,
+      lipstickType,
+      productType,
+      product_type,
       specularIntensity,
       specularPower,
       glossBoost,
@@ -116,6 +120,8 @@ export const action = async ({ request }) => {
       opacityMult,
       blurMult,
       shimmerIntensity,
+      reflectionOpacity,
+      reflectionBlur,
     } = body;
 
     const lookupTitle = productName || body.title;
@@ -133,27 +139,31 @@ export const action = async ({ request }) => {
       );
     }
 
-    const effectiveType = type || lipstick_type;
+    const effectiveType = type || lipstick_type || lipstickType;
+    const effectiveProductType = productType || product_type;
 
     // At least one attribute must be provided
     if (
       !color &&
       intensity === undefined &&
       !effectiveType &&
+      effectiveProductType === undefined &&
       specularIntensity === undefined &&
       specularPower === undefined &&
       glossBoost === undefined &&
       saturationMult === undefined &&
       opacityMult === undefined &&
       blurMult === undefined &&
-      shimmerIntensity === undefined
+      shimmerIntensity === undefined &&
+      reflectionOpacity === undefined &&
+      reflectionBlur === undefined
     ) {
       return jsonResponse(
         400,
         {
           success: false,
           error:
-            "At least one attribute to update is required: color, intensity, type, or shader properties",
+            "At least one attribute to update is required: color, intensity, type, productType, or shader properties",
         },
         request,
       );
@@ -199,13 +209,33 @@ export const action = async ({ request }) => {
     }
 
     // Update only the provided attributes
-    if (color) data.products[productIndex].color = color;
+    if (color !== undefined) {
+      const cleanColor = String(color).trim();
+      const isTransparent =
+        cleanColor.toLowerCase().replace(/^#/, "") === "none" ||
+        cleanColor.toLowerCase() === "clear" ||
+        cleanColor.toLowerCase() === "transparent" ||
+        cleanColor.toLowerCase() === "#00000000" ||
+        cleanColor.toLowerCase() === "00000000";
+      data.products[productIndex].color = isTransparent ? "none" : cleanColor;
+    }
     if (intensity) data.products[productIndex].intensity = String(intensity);
     if (effectiveType) {
       data.products[productIndex].lipstick_type = effectiveType;
       if (effectiveType.toLowerCase() === "matte" && shimmerIntensity === undefined) {
         data.products[productIndex].shimmerIntensity = "0.0";
       }
+      if (effectiveType.toLowerCase() === "glass") {
+        if (reflectionOpacity === undefined && data.products[productIndex].reflectionOpacity === undefined) {
+          data.products[productIndex].reflectionOpacity = "90";
+        }
+        if (reflectionBlur === undefined && data.products[productIndex].reflectionBlur === undefined) {
+          data.products[productIndex].reflectionBlur = "40";
+        }
+      }
+    }
+    if (effectiveProductType !== undefined) {
+      data.products[productIndex].product_type = effectiveProductType;
     }
     // new data
     if (specularIntensity !== undefined) data.products[productIndex].specularIntensity = String(specularIntensity);
@@ -215,6 +245,8 @@ export const action = async ({ request }) => {
     if (opacityMult !== undefined) data.products[productIndex].opacityMult = String(opacityMult);
     if (blurMult !== undefined) data.products[productIndex].blurMult = String(blurMult);
     if (shimmerIntensity !== undefined) data.products[productIndex].shimmerIntensity = String(shimmerIntensity);
+    if (reflectionOpacity !== undefined) data.products[productIndex].reflectionOpacity = String(reflectionOpacity);
+    if (reflectionBlur !== undefined) data.products[productIndex].reflectionBlur = String(reflectionBlur);
 
     // Write back to S3
     await writeToJson(BUCKET_NAME, key, data);

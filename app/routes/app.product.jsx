@@ -72,11 +72,20 @@ export const loader = async ({ request }) => {
         productId: value.parent_product_id, // Load parent ID
         title: value.title,
         image: value.img_url,
-        color: value.color || "#A2142F",
+        color: (() => {
+          const rawColor = (value.color || "").trim().toLowerCase().replace(/^#/, "");
+          const isTransparent =
+            rawColor === "none" ||
+            rawColor === "clear" ||
+            rawColor === "00000000" ||
+            ((value.lipstick_type || "").toLowerCase() === "glass" && !value.color);
+          return isTransparent ? "none" : (value.color || "#A2142F");
+        })(),
         description: value.description || "",
         price: formatPrice(value.price, currencyCode),
         intensity: value.intensity || "5",
         lipstick_type: value.lipstick_type || "matte",
+        product_type: value.product_type || "lipstick",
         specularIntensity: value.specularIntensity || "0",
         specularPower: value.specularPower || "1",
         glossBoost: value.glossBoost || "0",
@@ -87,6 +96,18 @@ export const loader = async ({ request }) => {
           value.shimmerIntensity !== undefined
             ? String(value.shimmerIntensity)
             : defaultShimmer,
+        reflectionOpacity:
+          value.reflectionOpacity !== undefined
+            ? String(value.reflectionOpacity)
+            : (value.lipstick_type || "").toLowerCase() === "glass"
+            ? "90"
+            : undefined,
+        reflectionBlur:
+          value.reflectionBlur !== undefined
+            ? String(value.reflectionBlur)
+            : (value.lipstick_type || "").toLowerCase() === "glass"
+            ? "40"
+            : undefined,
       };
     });
 
@@ -151,6 +172,7 @@ export const action = async ({ request }) => {
           title: productData.title,
           img_url: productData.image,
           lipstick_type: productData.lipstick_type || "matte",
+          product_type: productData.product_type || "lipstick",
           product_id: productData.id,
           parent_product_id: productData.productId, // Save parent ID
           specularIntensity: String(productData.specularIntensity ?? "0"),
@@ -190,6 +212,7 @@ export const action = async ({ request }) => {
       title: productData.title,
       img_url: productData.image,
       lipstick_type: productData.lipstick_type || "matte",
+      product_type: productData.product_type || "lipstick",
       product_id: productData.id,
       parent_product_id: productData.productId, // Save parent ID
       specularIntensity: String(productData.specularIntensity ?? "0"),
@@ -236,6 +259,7 @@ export default function Index() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [productTypeFilter, setProductTypeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
   const [savingId, setSavingId] = useState(null);
   const [aiStatus, setAiStatus] = useState(null);
@@ -297,6 +321,7 @@ export default function Index() {
             newSaved.color !== prevSaved.color ||
             String(newSaved.intensity) !== String(prevSaved.intensity) ||
             newSaved.lipstick_type !== prevSaved.lipstick_type ||
+            newSaved.product_type !== prevSaved.product_type ||
             newSaved.specularIntensity !== prevSaved.specularIntensity ||
             newSaved.specularPower !== prevSaved.specularPower ||
             newSaved.glossBoost !== prevSaved.glossBoost ||
@@ -315,7 +340,8 @@ export default function Index() {
             prevSaved &&
             (p.color !== prevSaved.color ||
               String(p.intensity) !== String(prevSaved.intensity) ||
-              p.lipstick_type !== prevSaved.lipstick_type);
+              p.lipstick_type !== prevSaved.lipstick_type ||
+              p.product_type !== prevSaved.product_type);
 
           if (isLocallyModified) {
             return p;
@@ -406,6 +432,9 @@ export default function Index() {
                   p.lipstick_type ||
                   ""
                 ).toLowerCase() === "matte";
+              const effectiveProductType =
+                payload.productType || payload.product_type;
+
               return {
                 ...p,
                 ...(payload.color ? { color: payload.color } : {}),
@@ -414,6 +443,9 @@ export default function Index() {
                   : {}),
                 ...(payload.type || payload.lipstick_type
                   ? { lipstick_type: payload.type || payload.lipstick_type }
+                  : {}),
+                ...(effectiveProductType
+                  ? { product_type: effectiveProductType }
                   : {}),
                 ...(payload.specularIntensity !== undefined
                   ? { specularIntensity: String(payload.specularIntensity) }
@@ -437,6 +469,12 @@ export default function Index() {
                   ? { shimmerIntensity: String(payload.shimmerIntensity) }
                   : isMatte
                   ? { shimmerIntensity: "0.0" }
+                  : {}),
+                ...(payload.reflectionOpacity !== undefined
+                  ? { reflectionOpacity: String(payload.reflectionOpacity) }
+                  : {}),
+                ...(payload.reflectionBlur !== undefined
+                  ? { reflectionBlur: String(payload.reflectionBlur) }
                   : {}),
               };
             }),
@@ -514,6 +552,12 @@ export default function Index() {
           );
           const isMatte = (detectedType || "").toLowerCase() === "matte";
 
+          const lowerText = `${v.title || ""} ${v.displayName || ""} ${p.title || ""}`.toLowerCase();
+          const detectedProductType =
+            lowerText.includes("liner") || lowerText.includes("linear")
+              ? "lip_linear"
+              : "lipstick";
+
           return {
             id: v.id, // Use Variant ID as the unique ID
             productId: p.id, // Store Parent Product ID for pre-selection
@@ -524,6 +568,7 @@ export default function Index() {
             price: formatPrice(v.price, currencyCode),
             intensity: "5",
             lipstick_type: detectedType,
+            product_type: detectedProductType,
             shimmerIntensity: isMatte ? "0.0" : "0.8",
           };
         }),
@@ -720,7 +765,13 @@ export default function Index() {
         typeFilter === "all" ||
         (product.lipstick_type || "").toLowerCase() ===
           typeFilter.toLowerCase();
-      return matchesSearch && matchesType;
+      const rawPt = (product.product_type || "lipstick").toLowerCase().trim();
+      const isLinear = rawPt === "lip_linear";
+      const matchesProductType =
+        productTypeFilter === "all" ||
+        (productTypeFilter === "lip_linear" && isLinear) ||
+        (productTypeFilter === "lipstick" && !isLinear);
+      return matchesSearch && matchesType && matchesProductType;
     })
     .sort((a, b) => {
       if (sortBy === "oldest") {
@@ -950,6 +1001,53 @@ export default function Index() {
 
               {/* Filter & Sort Controls on Right */}
               <div className="products-controls-wrap">
+                {/* Product Type Filter */}
+                <div className="products-select-box">
+                  <select
+                    value={productTypeFilter}
+                    onChange={(e) => setProductTypeFilter(e.target.value)}
+                    style={{
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      width: "100%",
+                      height: "38px",
+                      padding: "8px 32px 8px 14px",
+                      border: "1.5px solid #E5E7EB",
+                      borderRadius: "10px",
+                      fontSize: "13.5px",
+                      fontWeight: "500",
+                      color: "#374151",
+                      backgroundColor: "#FFFFFF",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <option value="all">All Categories</option>
+                    <option value="lipstick">Lipstick</option>
+                    <option value="lip_linear">Lip Linear</option>
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="14"
+                    height="14"
+                    fill="none"
+                    stroke="#6B7280"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </div>
+
                 {/* Type Filter */}
                 <div className="products-select-box">
                   <select
@@ -972,7 +1070,7 @@ export default function Index() {
                       boxSizing: "border-box",
                     }}
                   >
-                    <option value="all">All Types</option>
+                    <option value="all">All Finishes</option>
                     <option value="matte">Matte</option>
                     <option value="glossy">Glossy</option>
                     <option value="sheer">Sheer</option>
@@ -980,6 +1078,7 @@ export default function Index() {
                     <option value="cream">Cream</option>
                     <option value="shimmer">Shimmer</option>
                     <option value="metallic">Metallic</option>
+                    <option value="glass">Glass</option>
                   </select>
                   <svg
                     viewBox="0 0 24 24"
@@ -1137,32 +1236,46 @@ export default function Index() {
               <div
                 style={{
                   position: "fixed",
-                  bottom: "20px",
+                  top: aiStatus ? "76px" : "20px",
                   left: "50%",
                   transform: "translateX(-50%)",
                   backgroundColor: "#1a1a1a",
                   color: "white",
-                  padding: "12px 24px",
-                  borderRadius: "12px",
+                  padding: "10px 22px",
+                  borderRadius: "30px",
                   display: "flex",
                   alignItems: "center",
-                  gap: "20px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-                  zIndex: 1000,
-                  animation: "slideUp 0.3s ease-out",
+                  gap: "16px",
+                  boxShadow:
+                    "0 10px 25px -5px rgba(0,0,0,0.35), 0 8px 10px -6px rgba(0,0,0,0.25)",
+                  zIndex: 9998,
+                  animation: "bulkBarSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                   opacity: isAiAnalyzing || fetcher.state !== "idle" ? 0.85 : 1,
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  backdropFilter: "blur(12px)",
+                  transition: "top 0.3s ease",
+                  maxWidth: "92vw",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
                 }}
               >
                 <style>
                   {`
-                    @keyframes slideUp {
-                      from { transform: translate(-50%, 100%); opacity: 0; }
+                    @keyframes bulkBarSlideDown {
+                      from { transform: translate(-50%, -100%); opacity: 0; }
                       to { transform: translate(-50%, 0); opacity: 1; }
                     }
                   `}
                 </style>
                 <s-text>
-                  <span style={{ color: "white" }}>
+                  <span
+                    style={{
+                      color: "white",
+                      fontWeight: "600",
+                      fontSize: "13px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
                     {selectedIds.length}{" "}
                     {selectedIds.length === 1 ? "product" : "products"} selected
                   </span>

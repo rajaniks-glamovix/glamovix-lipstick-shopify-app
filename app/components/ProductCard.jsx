@@ -29,15 +29,24 @@ export default function ProductCard({
 
       const isMatte =
         (targetProd.lipstick_type || "matte").toLowerCase() === "matte";
+      const isGlass =
+        (targetProd.lipstick_type || "").toLowerCase() === "glass";
       const defaultShimmer = isMatte ? "0.0" : "0.8";
 
       const params = new URLSearchParams({
         preview: "true",
         product: targetProd.title || "",
         price: targetProd.price || "",
-        color: (targetProd.color || "").replace("#", ""),
+        color: (() => {
+          const c = (targetProd.color || "").trim().toLowerCase().replace(/^#/, "");
+          return c === "none" || c === "clear" || c === "00000000"
+            ? "none"
+            : (targetProd.color || "").replace("#", "");
+        })(),
         intensity: String(targetProd.intensity ?? "5"),
         type: targetProd.lipstick_type || "matte",
+        productType: targetProd.product_type || "lipstick",
+        product_type: targetProd.product_type || "lipstick",
         companyName: companyName || "",
         specularIntensity: String(targetProd.specularIntensity ?? "0"),
         specularPower: String(targetProd.specularPower ?? "1"),
@@ -49,6 +58,18 @@ export default function ProductCard({
         slider: "true",
         temp: String(Date.now()),
       });
+
+      if (isGlass) {
+        params.set("lipstickType", "glass");
+        params.set(
+          "reflectionOpacity",
+          String(targetProd.reflectionOpacity ?? "90")
+        );
+        params.set(
+          "reflectionBlur",
+          String(targetProd.reflectionBlur ?? "40")
+        );
+      }
 
       if (isPhotoMode) {
         params.set("photo_mode", "true");
@@ -137,6 +158,20 @@ export default function ProductCard({
     .toLowerCase()
     .replace(/^./, (c) => c.toUpperCase());
 
+  const cleanColor = (product.color || "").toLowerCase().trim().replace(/^#/, "");
+  const isNone =
+    cleanColor === "none" ||
+    cleanColor === "clear" ||
+    cleanColor === "00000000" ||
+    ((product.lipstick_type || "").toLowerCase() === "glass" && !product.color);
+
+  const displayColor = isNone ? "none" : (product.color || "#b1022e");
+  const swatchBgColor = isNone ? "transparent" : (product.color || "#b1022e");
+
+  const rawProductType = (product.product_type || "lipstick").toLowerCase().trim();
+  const isLipLinear = rawProductType === "lip_linear";
+  const formattedProductType = isLipLinear ? "Lip Linear" : "Lipstick";
+
   return (
     <>
       <style>{`
@@ -186,12 +221,13 @@ export default function ProductCard({
 
         .glamovix-card-specs-row {
           display: grid;
-          grid-template-columns: 1fr auto 1fr;
+          grid-template-columns: 1fr auto 1fr auto 1fr;
           align-items: center;
           margin-top: 14px;
           padding-top: 12px;
           border-top: 1px solid #F3F4F6;
           order: 4;
+          gap: 2px;
         }
 
         .glamovix-card-actions {
@@ -655,7 +691,7 @@ export default function ProductCard({
               width: "22px",
               height: "22px",
               borderRadius: "50%",
-              backgroundColor: product.color || "#b1022e",
+              backgroundColor: swatchBgColor,
               boxShadow:
                 "inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06)",
               flexShrink: 0,
@@ -670,33 +706,51 @@ export default function ProductCard({
               letterSpacing: "0.2px",
             }}
           >
-            {product.color || "#b1022e"}
+            {displayColor}
           </span>
 
           {/* Type Badge Pill */}
           <span
             style={{
               marginLeft: "6px",
-              padding: "3px 10px",
+              padding: "3px 8px",
               backgroundColor: "#FAF5FF",
               color: "#7C3AED",
               borderRadius: "6px",
-              fontSize: "12px",
+              fontSize: "11.5px",
               fontWeight: "500",
               letterSpacing: "0.1px",
             }}
           >
             {formattedType}
           </span>
+
+          {/* Product Type Badge Pill */}
+          <span
+            style={{
+              marginLeft: "auto",
+              padding: "3px 8px",
+              backgroundColor: isLipLinear ? "#EFF6FF" : "#F0FDF4",
+              color: isLipLinear ? "#1D4ED8" : "#15803D",
+              borderRadius: "6px",
+              fontSize: "11px",
+              fontWeight: "600",
+              letterSpacing: "0.1px",
+              border: isLipLinear ? "1px solid #BFDBFE" : "1px solid #BBF7D0",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {formattedProductType}
+          </span>
         </div>
 
-        {/* ATTRIBUTES ROW: Intensity & Type */}
+        {/* ATTRIBUTES ROW: Intensity, Finish & Product Type */}
         <div className="glamovix-card-specs-row">
           {/* Left: Intensity */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
             <svg
-              width="18"
-              height="18"
+              width="15"
+              height="15"
               viewBox="0 0 24 24"
               fill="none"
               stroke="#6B7280"
@@ -707,23 +761,25 @@ export default function ProductCard({
             >
               <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
             </svg>
-            <div>
+            <div style={{ minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   color: "#9CA3AF",
                   fontWeight: "500",
                   lineHeight: "1.2",
+                  whiteSpace: "nowrap",
                 }}
               >
                 Intensity
               </div>
               <div
                 style={{
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "#1F2937",
                   fontWeight: "600",
                   lineHeight: "1.3",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {product.intensity || 5} / 10
@@ -731,21 +787,22 @@ export default function ProductCard({
             </div>
           </div>
 
-          {/* Vertical Divider */}
+          {/* Vertical Divider 1 */}
           <div
             style={{
               width: "1px",
-              height: "28px",
+              height: "26px",
               backgroundColor: "#E5E7EB",
-              margin: "0 6px",
+              margin: "0 2px",
+              flexShrink: 0,
             }}
           />
 
-          {/* Right: Type */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {/* Middle: Finish */}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
             <svg
-              width="18"
-              height="18"
+              width="15"
+              height="15"
               viewBox="0 0 24 24"
               fill="none"
               stroke="#6B7280"
@@ -758,26 +815,87 @@ export default function ProductCard({
               <polyline points="2 17 12 22 22 17" />
               <polyline points="2 12 12 17 22 12" />
             </svg>
-            <div>
+            <div style={{ minWidth: 0 }}>
               <div
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10.5px",
                   color: "#9CA3AF",
                   fontWeight: "500",
                   lineHeight: "1.2",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Type
+                Finish
               </div>
               <div
                 style={{
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "#1F2937",
                   fontWeight: "600",
                   lineHeight: "1.3",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
+                title={formattedType}
               >
                 {formattedType}
+              </div>
+            </div>
+          </div>
+
+          {/* Vertical Divider 2 */}
+          <div
+            style={{
+              width: "1px",
+              height: "26px",
+              backgroundColor: "#E5E7EB",
+              margin: "0 2px",
+              flexShrink: 0,
+            }}
+          />
+
+          {/* Right: Product Type */}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", minWidth: 0 }}>
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#6B7280"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ flexShrink: 0 }}
+            >
+              <path d="M12 19l7-7 3 3-7 7-3-3z" />
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+            </svg>
+            <div style={{ minWidth: 0 }}>
+              <div
+                style={{
+                  fontSize: "10.5px",
+                  color: "#9CA3AF",
+                  fontWeight: "500",
+                  lineHeight: "1.2",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Product Type
+              </div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: isLipLinear ? "#2563EB" : "#1F2937",
+                  fontWeight: "600",
+                  lineHeight: "1.3",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                title={formattedProductType}
+              >
+                {formattedProductType}
               </div>
             </div>
           </div>
@@ -973,10 +1091,11 @@ export default function ProductCard({
                     width: "14px",
                     height: "14px",
                     borderRadius: "50%",
-                    backgroundColor: product.color || "#b1022e",
+                    backgroundColor: swatchBgColor,
                     border: "1px solid rgba(0, 0, 0, 0.15)",
                     flexShrink: 0,
                   }}
+                  title={displayColor}
                 />
                 <h3
                   style={{
@@ -1004,6 +1123,21 @@ export default function ProductCard({
                   }}
                 >
                   Shade Studio
+                </span>
+                <span
+                  style={{
+                    fontSize: "11.5px",
+                    color: isLipLinear ? "#1D4ED8" : "#15803D",
+                    backgroundColor: isLipLinear ? "#EFF6FF" : "#F0FDF4",
+                    border: isLipLinear ? "1px solid #BFDBFE" : "1px solid #BBF7D0",
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                    fontWeight: "600",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                >
+                  {formattedProductType}
                 </span>
               </div>
 

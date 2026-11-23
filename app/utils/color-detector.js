@@ -146,6 +146,10 @@ export const DEFAULT_LIPSTICK_COLOR = "#A2142F";
 export function extractHexCode(text) {
   if (!text || typeof text !== "string") return null;
 
+  // Check for 8-digit #RRGGBBAA
+  const hex8Match = text.match(/#([0-9a-fA-F]{8})\b/);
+  if (hex8Match) return `#${hex8Match[1].toUpperCase()}`;
+
   // Check for standard #RRGGBB
   const hex6Match = text.match(/#([0-9a-fA-F]{6})\b/);
   if (hex6Match) return `#${hex6Match[1].toUpperCase()}`;
@@ -198,15 +202,16 @@ export function matchShadeName(text) {
 }
 
 /**
- * Detects the lipstick finish/type (matte, glossy, sheer, satin, cream, shimmer, metallic)
+ * Detects the lipstick finish/type (matte, glossy, sheer, satin, cream, shimmer, metallic, glass)
  * from variant or product text.
  * @param {string} text
- * @returns {string} - 'matte' | 'glossy' | 'sheer' | 'satin' | 'cream' | 'shimmer' | 'metallic'
+ * @returns {string} - 'matte' | 'glossy' | 'sheer' | 'satin' | 'cream' | 'shimmer' | 'metallic' | 'glass'
  */
 export function detectLipstickType(text) {
   if (!text || typeof text !== "string") return "matte";
 
   const lower = text.toLowerCase();
+  if (lower.includes("glass")) return "glass";
   if (lower.includes("gloss")) return "glossy";
   if (lower.includes("satin")) return "satin";
   if (lower.includes("sheer")) return "sheer";
@@ -264,6 +269,17 @@ export function detectLipstickColor(variant, product = null) {
     }
 
     const val = String(colorOption.value || "");
+    const lowerVal = val.toLowerCase().trim();
+    if (
+      lowerVal === "clear" ||
+      lowerVal === "transparent" ||
+      lowerVal === "none" ||
+      lowerVal === "glass" ||
+      lowerVal === "#00000000" ||
+      lowerVal === "00000000"
+    ) {
+      return "none";
+    }
 
     // 1b. Hex in color option value
     const hexFromOption = extractHexCode(val);
@@ -277,6 +293,16 @@ export function detectLipstickColor(variant, product = null) {
   // 2. Check all selected options
   for (const opt of selectedOptions) {
     const val = String(opt.value || "");
+    const lowerVal = val.toLowerCase().trim();
+    if (
+      lowerVal === "clear" ||
+      lowerVal === "transparent" ||
+      lowerVal === "none" ||
+      lowerVal === "#00000000" ||
+      lowerVal === "00000000"
+    ) {
+      return "none";
+    }
     const hex = extractHexCode(val);
     if (hex) return hex;
 
@@ -303,6 +329,18 @@ export function detectLipstickColor(variant, product = null) {
     if (shadeFromProd) return shadeFromProd;
   }
 
-  // 5. Default fallback
+  // 5. If finish is glass or title mentions clear/transparent/glass with no pigment matched
+  const allText = `${variantTitle} ${variantDisplayName} ${product?.title || ""}`.toLowerCase();
+  if (
+    allText.includes("clear") ||
+    allText.includes("transparent") ||
+    allText.includes("translucent") ||
+    allText.includes("colorless") ||
+    detectLipstickType(allText) === "glass"
+  ) {
+    return "none";
+  }
+
+  // 6. Default fallback
   return DEFAULT_LIPSTICK_COLOR;
 }

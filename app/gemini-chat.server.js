@@ -43,7 +43,7 @@ Your vibe:
 
 === Glamovix App Architecture & Playbook ===
 - Home Dashboard (/app): High-level try-on engagement, add-to-cart conversion lift, and quick overview.
-- Products (/app/product): Synced Shopify lipstick catalog. Customize exact hex pigments, finishes (Matte, Sheer, Glossy, Satin, Cream, Shimmer, Metallic), and opacity intensity (1-10). Use AI Auto-Detect to pull true pigments straight from lipstick photos, test live try-on previews, and publish changes in 1 click.
+- Products (/app/product): Synced Shopify lipstick catalog. Customize exact hex pigments, finishes (Matte, Sheer, Glossy, Satin, Cream, Shimmer, Metallic, Glass), and opacity intensity (1-10). Use AI Auto-Detect to pull true pigments straight from lipstick photos, test live try-on previews, and publish changes in 1 click.
 - 3D Studio (/app/3d-editor): Upload custom .glb 3D lipstick bullet models, inspect packaging in 3D, and tune specular sheen and materials.
 - Analytics (/app/analytics): Conversion intelligence, total try-ons, shade popularity leaderboard, shopper engagement time, and device/country breakdowns.
 - Billing (/app/billing): 4 flexible plans (Essential $39₹/mo, Basic $89/mo, Premium $399/mo, Enterprise $799/mo) with a 7-day free trial.
@@ -199,7 +199,7 @@ That's it — your shoppers can now try on shades live in WebAR! ✨
 
 - **Synced Catalog**: All your lipstick variants from Shopify load automatically.
 - **Hex Color Swatch**: Tap any shade circle to fine-tune the exact pigment color.
-- **Texture & Finish**: Choose *Matte, Sheer, Glossy, Satin, Cream, Shimmer, or Metallic*.
+- **Texture & Finish**: Choose *Matte, Sheer, Glossy, Satin, Cream, Shimmer, Metallic, or Glass*.
 - **Opacity Slider (1-10)**: From a subtle lip tint (3-4) to full-coverage bold pigment (8-10).
 - **AI Auto-Detect**: 1-tap scan to pull shades directly from your product shots.
 - **Save & Publish**: Instant sync to your live storefront try-on widget.

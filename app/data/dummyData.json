@@ -8,6 +8,7 @@
       "title": "Gift Card - $100",
       "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/gift_card.png?v=1769423029",
       "lipstick_type": "satin",
+      "product_type": "lipstick",
       "product_id": "gid://shopify/ProductVariant/53064588132625",
       "parent_product_id": "gid://shopify/Product/10780028797201"
     },
@@ -19,17 +20,21 @@
       "title": "The 3p Fulfilled Snowboard",
       "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_b9e0da7f-db89-4d41-83f0-7f417b02831d.jpg?v=1769423029",
       "lipstick_type": "glossy",
+      "product_type": "lip_linear",
       "product_id": "gid://shopify/ProductVariant/53064588984593",
       "parent_product_id": "gid://shopify/Product/10780029255953"
     },
     {
-      "color": "#A2142F",
+      "color": "none",
       "description": "",
       "price": "629.95",
       "intensity": "5",
       "title": "The Archived Snowboard",
       "img_url": "https://cdn.shopify.com/s/files/1/0960/2606/7217/files/Main_52f8e304-92d9-4a36-82af-50df8fe31c69.jpg?v=1769423028",
-      "lipstick_type": "matte",
+      "lipstick_type": "glass",
+      "reflectionOpacity": "90",
+      "reflectionBlur": "40",
+      "product_type": "lipstick",
       "product_id": "gid://shopify/ProductVariant/53064588591377",
       "parent_product_id": "gid://shopify/Product/10780029157649"
     },
